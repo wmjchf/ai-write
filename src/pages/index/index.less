@@ -1,0 +1,100 @@
+.index {
+  height: 100vh;
+  background-image: url("./image/background.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  .description {
+    .adver {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      width: 600px;
+      text {
+        color: #fff;
+        font-size: 40px;
+        text-align: center;
+        font-weight: 600;
+        margin-bottom: 16px;
+        &:nth-child(2) {
+          font-size: 28px;
+        }
+      }
+    }
+  }
+  .speak {
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, #ff416c, #ff4b2b);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    bottom: 150px;
+    left: 50%;
+    transform: translateX(-50%) scale(1);
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(255, 65, 108, 0.5);
+    transition: all 0.5s ease;
+    transform-origin: center;
+    overflow: visible !important;
+    &.start {
+      transform: translateX(-50%) scale(0.9);
+      &::before {
+        content: "";
+        width: 300px;
+        height: 300px;
+
+        position: absolute;
+        border-radius: 50%;
+        animation: eff68 1.4s linear infinite reverse;
+      }
+      &::after {
+        content: "";
+        width: 600px;
+        height: 600px;
+
+        position: absolute;
+        border-radius: 50%;
+        animation: eff68 1.4s linear infinite reverse;
+        animation-delay: 0.7s;
+      }
+    }
+
+    image {
+      width: 130px;
+      height: 130px;
+    }
+  }
+  .my__record {
+    position: absolute;
+    bottom: 80px;
+    left: 50%;
+    transform: translateX(-50%);
+    color: #fff;
+    text-decoration: underline;
+  }
+  .lottie {
+    width: 600px;
+    height: 900px;
+    display: none;
+    &.show {
+      display: block;
+    }
+  }
+}
+@keyframes eff68 {
+  0% {
+    box-shadow: 0 0 0 0px #ff416c;
+    opacity: 0.5;
+  }
+  100% {
+    box-shadow: 0 0 0 80px #ff416c;
+    opacity: 0;
+  }
+}
