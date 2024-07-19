@@ -2,6 +2,7 @@ import { View, Image, Text } from "@tarojs/components";
 import { useCommonStore } from "@/store";
 import NoData from "./image/noData.png";
 import { Item } from "./Item";
+import { Poster } from "./Poster";
 import styles from "./index.module.less";
 
 export default function Result() {
@@ -21,6 +22,7 @@ export default function Result() {
           <Text>没有数据</Text>
         </View>
       )}
+      <Poster></Poster>
     </View>
   );
 }
