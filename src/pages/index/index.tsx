@@ -102,8 +102,7 @@ export default function Index() {
               content: res.result,
               setting: user,
             };
-            const newRecordList = [newData, ...recordList];
-            setRecordList(newRecordList as IRecord[]);
+
             setData(newData);
           }
         },
@@ -176,7 +175,12 @@ export default function Index() {
         <Poster
           data={data}
           onSaveSuccess={() => {
+            const newRecordList = [data, ...recordList];
+            setRecordList(newRecordList as IRecord[]);
             setData(null);
+            // Taro.navigateTo({
+            //   url: "/pages/result/index",
+            // });
           }}
         ></Poster>
       )}

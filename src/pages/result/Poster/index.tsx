@@ -140,7 +140,8 @@ export const Poster: React.FC<IPoster> = (props) => {
   return (
     <View
       className={styles.poster}
-      onClick={() => {
+      onClick={(event) => {
+        event.stopPropagation();
         onSaveSuccess && onSaveSuccess();
       }}
     >
