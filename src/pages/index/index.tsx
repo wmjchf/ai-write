@@ -11,6 +11,7 @@ import { Poster } from "../result/Poster";
 import Lottie from "../../components/Lottie";
 import VoicePng from "./image/voice.png";
 import "./index.less";
+import { DEFAULT_SETTING } from "@/constant/data";
 
 const plugin = requirePlugin("WechatSI");
 
@@ -38,6 +39,7 @@ export default function Index() {
     //     time: new Date().getTime(),
     //     content:
     //       "Web3打破数据孤岛，为AI推荐算法的未来带来了无限畅想。个性化推荐、跨平台协同、隐私保护、透明与公平、实时动态推荐和社区驱动优化等具体场景展示了Web3与AI推荐算法结合的巨大潜力。",
+    //     setting: DEFAULT_SETTING,
     //   },
     // ]);
 
@@ -92,7 +94,7 @@ export default function Index() {
       Taro.showModal({
         title: "识别结果",
         content: res.result,
-        confirmText: "分享",
+        confirmText: "记录",
 
         success(result) {
           if (result.confirm) {
@@ -102,8 +104,12 @@ export default function Index() {
               content: res.result,
               setting: user,
             };
+            const newRecordList = [newData, ...recordList];
+            setRecordList(newRecordList as IRecord[]);
 
-            setData(newData);
+            Taro.navigateTo({
+              url: "/pages/result/index",
+            });
           }
         },
       });
@@ -113,22 +119,6 @@ export default function Index() {
 
   return (
     <View className="index">
-      <CustomerHeader
-        position="absolute"
-        background="transparent"
-        backNode={
-          <View
-            className="setting"
-            onClick={() => {
-              Taro.navigateTo({
-                url: "/pages/user/index",
-              });
-            }}
-          >
-            <Image src={SettingPng}></Image>
-          </View>
-        }
-      ></CustomerHeader>
       {/* <View className="time__second">
         <Text>{time}</Text>
       </View> */}
@@ -159,7 +149,7 @@ export default function Index() {
         </Button>
       )}
 
-      {/* {!data && (
+      {!data && (
         <View
           className="my__record"
           onClick={() => {
@@ -170,20 +160,17 @@ export default function Index() {
         >
           我的瞬间
         </View>
-      )} */}
-      {data && (
+      )}
+      {/* {data && (
         <Poster
           data={data}
           onSaveSuccess={() => {
             const newRecordList = [data, ...recordList];
             setRecordList(newRecordList as IRecord[]);
             setData(null);
-            // Taro.navigateTo({
-            //   url: "/pages/result/index",
-            // });
           }}
         ></Poster>
-      )}
+      )} */}
     </View>
   );
 }

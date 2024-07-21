@@ -20,4 +20,5 @@ export const DEFAULT_SETTING = {
   x: "48",
   y: "350",
   fontWeight: 0,
+  showWater: true,
 };

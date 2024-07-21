@@ -11,9 +11,10 @@ import styles from "./index.module.less";
 interface IPoster {
   data?: IRecord;
   onSaveSuccess?: () => void;
+  onLoad?: () => void;
 }
 export const Poster: React.FC<IPoster> = (props) => {
-  const { data, onSaveSuccess } = props;
+  const { data, onSaveSuccess, onLoad } = props;
   const [factor, setFactor] = useState(0);
 
   const pathRef = useRef<string>();
@@ -25,6 +26,7 @@ export const Poster: React.FC<IPoster> = (props) => {
   const x = parseInt(data?.setting?.x || "48");
   const y = parseInt(data?.setting?.y || "350");
   const weight = data?.setting?.fontWeight || 0;
+  const showWater = data?.setting?.showWater;
 
   useEffect(() => {
     const sysInfo = Taro.getSystemInfoSync();
@@ -121,6 +123,19 @@ export const Poster: React.FC<IPoster> = (props) => {
                 fontFamily: "Times New Roman",
                 // textAlign: "center",
               },
+              {
+                text: "音瞬官方认证",
+                type: "text",
+                width: 360,
+                lineNum: 1,
+                lineHeight: 40,
+                x: 410,
+                y: 1070,
+                fontSize: 35,
+                color: "rgba(230, 230, 230, 0.3)",
+                fontFamily: "Times New Roman",
+                opacity: showWater ? 1 : 0,
+              },
             ],
           }}
           onCreateFail={(err) => {
@@ -131,11 +146,12 @@ export const Poster: React.FC<IPoster> = (props) => {
           }}
           onLoad={() => {
             setLoading(false);
+            onLoad && onLoad();
           }}
         ></DrawCanvas>
       );
     }
-  }, [factor, data, fontSize, height, x, y, weight]);
+  }, [factor, data, fontSize, height, x, y, weight, onLoad]);
 
   return (
     <View
@@ -145,14 +161,7 @@ export const Poster: React.FC<IPoster> = (props) => {
         onSaveSuccess && onSaveSuccess();
       }}
     >
-      <View
-        className={styles.content}
-        onClick={(event) => {
-          event.stopPropagation();
-        }}
-      >
-        {Drawer}
-      </View>
+      {Drawer}
       {!loading && (
         <Button
           className={styles.save}

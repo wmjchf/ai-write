@@ -23,6 +23,7 @@ export interface User {
   x: string;
   y: string;
   fontWeight: number;
+  showWater: boolean;
 }
 
 interface State {

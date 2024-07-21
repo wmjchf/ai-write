@@ -106,6 +106,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
     (otherOptions) => {
       Taro.canvasToTempFilePath({
         canvasId: config.canvasId,
+        quality: 1,
         success: (result) => {
           if (!onCreateSuccess) {
             console.warn(
@@ -113,6 +114,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
             );
           }
           onCreateSuccess && onCreateSuccess(result);
+          config.hideLoading === false && Taro.hideLoading();
         },
         fail: (error) => {
           const { errMsg } = error;
@@ -128,6 +130,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
                 );
               }
               onCreateFail && onCreateFail(error);
+              config.hideLoading === false && Taro.hideLoading();
             }
           }
         },
@@ -202,13 +205,13 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
       }
     });
 
-    const res = Taro.getSystemInfoSync();
-    const platform = res.platform;
-    let time = 0;
-    if (platform === "android") {
-      // 在安卓平台，经测试发现如果海报过于复杂在转换时需要做延时，要不然样式会错乱
-      time = 300;
-    }
+    // const res = Taro.getSystemInfoSync();
+    // const platform = res.platform;
+    let time = 1000;
+    // if (platform === "android") {
+    // 在安卓平台，经测试发现如果海报过于复杂在转换时需要做延时，要不然样式会错乱
+    // time = 1000;
+    // }
     ctxRef.current!.draw(false, () => {
       setTimeout(() => {
         getTempFile(null);
@@ -219,7 +222,6 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
   const onCreate = useCallback(() => {
     return downloadResourceTransit()
       .then(() => {
-        config.hideLoading === false && Taro.hideLoading();
         onLoad && onLoad();
         create();
       })
@@ -234,14 +236,14 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
         }
         onCreateFail && onCreateFail(err);
       });
-  }, [config, onCreateFail, create, downloadResourceTransit]);
+  }, [config, onCreateFail, create, downloadResourceTransit, onLoad]);
 
   useEffect(() => {
     if (config.hideLoading === false) {
       Taro.showLoading({ mask: true, title: "生成中..." });
     }
     onCreate();
-  }, [onCreate]);
+  }, [onCreate, config]);
 
   if (pxWidth && pxHeight) {
     return (

@@ -1,5 +1,10 @@
 export default defineAppConfig({
-  pages: ["pages/index/index", "pages/result/index", "pages/user/index"],
+  pages: [
+    "pages/index/index",
+    "pages/result/index",
+    "pages/user/index",
+    "pages/detail/index",
+  ],
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",

@@ -27,6 +27,7 @@ export default function User() {
   const [y, setY] = useState("");
   const [weight, setWeight] = useState(0);
   const [id, setId] = useState("");
+  const [showWater, setShowWater] = useState(true);
 
   useLoad((option) => {
     setId(option.id);
@@ -41,6 +42,7 @@ export default function User() {
       setX(user.x);
       setY(user.y);
       setWeight(user.fontWeight);
+      setShowWater(user.showWater);
       return;
     }
 
@@ -52,6 +54,7 @@ export default function User() {
     setX(record?.setting?.x);
     setY(record?.setting?.y);
     setWeight(record?.setting?.fontWeight);
+    setShowWater(record?.setting?.showWater);
   }, [user, id, recordList]);
 
   useEffect(() => {}, []);
@@ -87,6 +90,17 @@ export default function User() {
                   setNickname(event.detail.value);
                 }}
               />
+            </View>
+          </View>
+          <View className={styles.item}>
+            <Text>是否显示音瞬水印</Text>
+            <View className={styles.right}>
+              <Switch
+                checked={showWater}
+                onChange={(event) => {
+                  setShowWater(event.detail.value);
+                }}
+              ></Switch>
             </View>
           </View>
           {/* <View className={styles.item}>
@@ -195,6 +209,7 @@ export default function User() {
                     x,
                     y,
                     fontWeight: weight,
+                    showWater,
                   });
                 } else {
                   const newRecordList = recordList.map((item) => {
@@ -209,6 +224,7 @@ export default function User() {
                           x,
                           y,
                           fontWeight: weight,
+                          showWater,
                         },
                       };
                     }

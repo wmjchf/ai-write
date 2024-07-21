@@ -4,9 +4,6 @@ import classNames from "classnames";
 import dayjs from "dayjs";
 import Taro from "@tarojs/taro";
 import DeletePng from "../image/delete.png";
-import CopyPng from "../image/copy.png";
-import SharePng from "../image/share.png";
-import SettingPng from "../image/setting.png";
 import styles from "./index.module.less";
 
 interface IItem {
@@ -15,7 +12,7 @@ interface IItem {
 }
 
 export const Item: React.FC<IItem> = (props) => {
-  const { data, onShare } = props;
+  const { data } = props;
   const { recordList, setRecordList } = useCommonStore();
   return (
     // <AtSwipeAction
@@ -54,28 +51,45 @@ export const Item: React.FC<IItem> = (props) => {
     //     </View>
     //   </View>
     // </AtSwipeAction>
-    <View className={classNames(styles.item)}>
+    <View
+      className={classNames(styles.item)}
+      onClick={() => {
+        Taro.navigateTo({
+          url: `/pages/detail/index?id=${data.id}`,
+        });
+      }}
+    >
       <View className={styles.container}>
         <View className={styles.top}>
           <View className={styles.time}>
             <Text>时间：</Text>
             <Text>{dayjs(data.time).format("YYYY-MM-DD HH:mm:ss")}</Text>
           </View>
-          {/* <View
+          <View
             className={styles.setting}
-            onClick={() => {
-              Taro.navigateTo({
-                url: `/pages/user/index?id=${data.id}`,
+            onClick={(event) => {
+              event.stopPropagation();
+              Taro.showModal({
+                title: "确认",
+                content: "是否要删除，删除之后不可恢复！",
+                success(result) {
+                  if (result.confirm) {
+                    const newList = recordList.filter(
+                      (child) => child.id !== data.id
+                    );
+                    setRecordList(newList);
+                  }
+                },
               });
             }}
           >
-            <Image src={SettingPng}></Image>
-          </View> */}
+            <Image src={DeletePng}></Image>
+          </View>
         </View>
         <View className={styles.bottom}>
           <Text>{data.content}</Text>
         </View>
-        <View className={styles.operation}>
+        {/* <View className={styles.operation}>
           <View
             className={styles.delete}
             onClick={() => {
@@ -116,7 +130,7 @@ export const Item: React.FC<IItem> = (props) => {
             <Image src={SettingPng} />
             <Text>自定义</Text>
           </View>
-        </View>
+        </View> */}
       </View>
     </View>
   );
