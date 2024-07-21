@@ -42,13 +42,13 @@ export const Poster: React.FC<IPoster> = (props) => {
           config={{
             canvasId: "poster",
             width: 650,
-            height: 1000,
+            height: 1100,
             factor,
             hideLoading: false,
             images: [
               {
                 width: 650,
-                height: 1000,
+                height: 1100,
                 type: "image",
                 x: 0,
                 y: 0,
@@ -61,7 +61,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 type: "image",
                 borderRadius: 200,
                 x: 225,
-                y: 750,
+                y: 850,
                 url: "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/qrcode.jpg",
               },
               {
@@ -80,7 +80,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 text: data.content,
                 type: "text",
                 width: 520,
-                lineNum: 15,
+                lineNum: 20,
                 lineHeight: 45,
                 x: 48,
                 y: 350,

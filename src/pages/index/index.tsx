@@ -182,16 +182,18 @@ export default function Index() {
         </Button>
       )}
 
-      <View
-        className="my__record"
-        onClick={() => {
-          Taro.navigateTo({
-            url: "/pages/result/index",
-          });
-        }}
-      >
-        我的瞬间
-      </View>
+      {!data && (
+        <View
+          className="my__record"
+          onClick={() => {
+            Taro.navigateTo({
+              url: "/pages/result/index",
+            });
+          }}
+        >
+          我的瞬间
+        </View>
+      )}
       {data && (
         <Poster
           data={data}

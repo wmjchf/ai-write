@@ -1,4 +1,4 @@
-import { CanvasContext } from "@tarojs/taro";
+import Taro, { CanvasContext } from "@tarojs/taro";
 import { IText, IIMage, ILine, IBlock } from "../type";
 
 export interface IDrawRadiusRectData {
@@ -171,8 +171,17 @@ export function _drawSingleText(
     let fillText = "";
     let line = 1;
     for (let i = 0; i <= (text as string).length - 1; i++) {
+      if (text[i] === "\n") {
+        if (line <= lineNum) {
+          textArr.push(fillText);
+        }
+        fillText = "";
+        line++;
+        continue;
+      }
       // 将文字转为数组，一行文字一个元素
       fillText = fillText + text[i];
+
       if (ctx.measureText(fillText).width >= drawWidth) {
         if (line === lineNum) {
           if (i !== (text as string).length - 1) {
