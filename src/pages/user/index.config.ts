@@ -1,4 +1,4 @@
 export default definePageConfig({
-  navigationBarTitleText: "我的瞬间",
+  navigationBarTitleText: "用户信息",
   navigationStyle: "custom",
 });

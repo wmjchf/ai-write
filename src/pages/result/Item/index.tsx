@@ -5,14 +5,17 @@ import dayjs from "dayjs";
 import Taro from "@tarojs/taro";
 import DeletePng from "../image/delete.png";
 import CopyPng from "../image/copy.png";
+import SharePng from "../image/share.png";
 
 import styles from "./index.module.less";
 
 interface IItem {
   data: IRecord;
+  onShare?: (data: IRecord) => void;
 }
+
 export const Item: React.FC<IItem> = (props) => {
-  const { data } = props;
+  const { data, onShare } = props;
   const { recordList, setRecordList } = useCommonStore();
   return (
     // <AtSwipeAction
@@ -80,6 +83,15 @@ export const Item: React.FC<IItem> = (props) => {
           >
             <Image src={DeletePng} />
             <Text>删除</Text>
+          </View>
+          <View
+            className={styles.share}
+            onClick={() => {
+              onShare && onShare(data);
+            }}
+          >
+            <Image src={SharePng} />
+            <Text>分享</Text>
           </View>
           <View
             className={styles.copy}

@@ -3,6 +3,7 @@
   border-radius: 24px;
   // max-height: 350px;
   margin-bottom: 24px;
+
   :global {
     .at-swipe-action__option {
       display: flex;
@@ -76,13 +77,38 @@
           background-color: #eee;
         }
       }
+      .share {
+        flex: 1;
+        height: 90px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        color: #2c2c2c;
+        image {
+          width: 30px;
+          height: 30px;
+          margin-right: 12px;
+        }
+        &::after {
+          content: "";
+          display: block;
+          width: 1px;
+          height: 30px;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          right: 0;
+          background-color: #eee;
+        }
+      }
       .copy {
         flex: 1;
         display: flex;
         align-items: center;
         justify-content: center;
         height: 90px;
-        color: #cdcdcd;
+        color: #2c2c2c;
 
         image {
           width: 30px;

@@ -1,0 +1,69 @@
+.user {
+  width: 100vw;
+  height: 100vh;
+  box-sizing: border-box;
+  background-color: #f3f3f3;
+  .container {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 24px 32px;
+    .content {
+      background-color: #fff;
+      border-radius: 24px;
+      .item {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        box-sizing: border-box;
+        height: 104px;
+        padding: 12px 24px;
+        .right {
+          display: flex;
+          align-items: center;
+          .choose__avatar {
+            width: 80px;
+            height: 80px;
+            margin: unset;
+            &::after {
+              border: none;
+            }
+            padding: 0;
+            image {
+              width: 100%;
+              height: 100%;
+            }
+          }
+          .disabled {
+            color: #cdcdcd;
+            font-size: 24px;
+          }
+          .nickname {
+            text-align: right;
+            font-size: 24px;
+          }
+        }
+      }
+    }
+    .btn {
+      padding-bottom: 70px;
+      .save {
+        width: 100%;
+        height: 90px;
+        margin-top: 48px;
+        background-color: red;
+        border-radius: 90px;
+        color: #fff;
+      }
+      .tip {
+        width: 100%;
+        margin-top: 24px;
+        text-align: center;
+        text {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}
