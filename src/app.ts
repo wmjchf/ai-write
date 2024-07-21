@@ -2,6 +2,7 @@ import { PropsWithChildren, useEffect } from "react";
 import Taro, { useLaunch } from "@tarojs/taro";
 import "./app.less";
 import { useCommonStore } from "./store";
+import { DEFAULT_SETTING } from "./constant/data";
 
 function App({ children }: PropsWithChildren<any>) {
   const { setRecordList, setUser } = useCommonStore();
@@ -14,7 +15,7 @@ function App({ children }: PropsWithChildren<any>) {
     const user = Taro.getStorageSync("user");
 
     setRecordList(recordList || []);
-    setUser(user || null);
+    setUser(user || DEFAULT_SETTING);
   }, []);
 
   // children 是将要会渲染的页面

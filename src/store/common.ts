@@ -1,3 +1,4 @@
+import { DEFAULT_SETTING } from "@/constant/data";
 import Taro from "@tarojs/taro";
 import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
@@ -11,22 +12,28 @@ export interface IRecord {
   id: string;
   content: string;
   time: number;
+  setting: User;
 }
 
 export interface User {
   nickname: string;
   avatarUrl: string;
+  height: string;
+  fontSize: string;
+  x: string;
+  y: string;
+  fontWeight: number;
 }
 
 interface State {
   recordList: IRecord[];
-  user: User | null;
+  user: User;
 }
 
 export const useCommonStore = create<State & Action>()(
   immer((set) => ({
     recordList: [],
-    user: null,
+    user: DEFAULT_SETTING,
     setRecordList: (recordList) =>
       set((state) => {
         state.recordList = recordList;

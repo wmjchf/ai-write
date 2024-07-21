@@ -25,7 +25,7 @@ export default function Result() {
                 data={item}
                 key={item.id}
                 onShare={(v) => {
-                  if (!user) {
+                  if (!(item?.setting?.avatarUrl && item?.setting?.nickname)) {
                     Taro.showModal({
                       title: "理由",
                       content:
@@ -33,7 +33,7 @@ export default function Result() {
                       success(result) {
                         if (result.confirm) {
                           Taro.navigateTo({
-                            url: "/pages/user/index",
+                            url: `/pages/user/index?id=${item.id}`,
                           });
                         }
                       },

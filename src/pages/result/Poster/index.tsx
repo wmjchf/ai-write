@@ -3,6 +3,7 @@ import { Button, View } from "@tarojs/components";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { IRecord, useCommonStore } from "@/store/common";
 import { DrawCanvas } from "@/components/DrawCanvas";
+import { WEIGHT_OPTION } from "@/constant/data";
 import { handleAuth } from "@/utils";
 import dayjs from "dayjs";
 import styles from "./index.module.less";
@@ -14,10 +15,16 @@ interface IPoster {
 export const Poster: React.FC<IPoster> = (props) => {
   const { data, onSaveSuccess } = props;
   const [factor, setFactor] = useState(0);
-  const { user } = useCommonStore();
+
   const pathRef = useRef<string>();
   const [loading, setLoading] = useState(true);
   const [haveSetting, setHaveSetting] = useState(true);
+
+  const height = parseInt(data?.setting?.height || "1100");
+  const fontSize = parseInt(data?.setting?.fontSize || "26");
+  const x = parseInt(data?.setting?.x || "48");
+  const y = parseInt(data?.setting?.y || "350");
+  const weight = data?.setting?.fontWeight || 0;
 
   useEffect(() => {
     const sysInfo = Taro.getSystemInfoSync();
@@ -42,13 +49,13 @@ export const Poster: React.FC<IPoster> = (props) => {
           config={{
             canvasId: "poster",
             width: 650,
-            height: 1100,
+            height: height,
             factor,
             hideLoading: false,
             images: [
               {
                 width: 650,
-                height: 1100,
+                height: height,
                 type: "image",
                 x: 0,
                 y: 0,
@@ -61,7 +68,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 type: "image",
                 borderRadius: 200,
                 x: 225,
-                y: 850,
+                y: height - 250,
                 url: "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/qrcode.jpg",
               },
               {
@@ -71,7 +78,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 borderRadius: 150,
                 x: 250,
                 y: 140,
-                url: user?.avatarUrl as string,
+                url: data?.setting?.avatarUrl as string,
               },
             ],
 
@@ -82,11 +89,12 @@ export const Poster: React.FC<IPoster> = (props) => {
                 width: 520,
                 lineNum: 20,
                 lineHeight: 45,
-                x: 48,
-                y: 350,
-                fontSize: 26,
+                x,
+                y,
+                fontSize,
                 color: "#333",
                 fontFamily: "Times New Roman",
+                fontWeight: WEIGHT_OPTION[weight].value,
               },
               {
                 text: dayjs(data.time).format("YYYY-MM-DD HH:mm:ss"),
@@ -101,7 +109,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 fontFamily: "Times New Roman",
               },
               {
-                text: user?.nickname as string,
+                text: data?.setting?.nickname as string,
                 type: "text",
                 width: 500,
                 lineNum: 1,
@@ -127,7 +135,7 @@ export const Poster: React.FC<IPoster> = (props) => {
         ></DrawCanvas>
       );
     }
-  }, [factor, data, user]);
+  }, [factor, data, fontSize, height, x, y, weight]);
 
   return (
     <View

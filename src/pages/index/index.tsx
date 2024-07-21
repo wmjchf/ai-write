@@ -1,5 +1,5 @@
 import { View, Button, Text, Image } from "@tarojs/components";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import Taro, { requirePlugin, useDidShow } from "@tarojs/taro";
 import classnames from "classnames";
 import { handleAuth } from "@/utils";
@@ -34,12 +34,13 @@ export default function Index() {
     // setRecordList(newRecordList || []);
     // Taro.setStorageSync("recordList", [
     //   {
-    //     id: 1,
+    //     id: "1",
     //     time: new Date().getTime(),
     //     content:
     //       "Web3打破数据孤岛，为AI推荐算法的未来带来了无限畅想。个性化推荐、跨平台协同、隐私保护、透明与公平、实时动态推荐和社区驱动优化等具体场景展示了Web3与AI推荐算法结合的巨大潜力。",
     //   },
     // ]);
+
     initRecord();
     Taro.getSetting({
       success(result) {
@@ -95,38 +96,15 @@ export default function Index() {
 
         success(result) {
           if (result.confirm) {
-            if (!user) {
-              Taro.showModal({
-                title: "理由",
-                content: "在生成海报是需要您的头像和昵称信息，是否去填写？",
-                success(r) {
-                  if (r.confirm) {
-                    Taro.navigateTo({
-                      url: "/pages/user/index",
-                    });
-                  }
-                },
-              });
-              return;
-            }
-
-            const newRecordList = [
-              {
-                id: generateUniqueRandomNumber(),
-                time: new Date().getTime(),
-                content: res.result,
-              },
-              ...recordList,
-            ];
-            setRecordList(newRecordList as IRecord[]);
-            setData({
+            const newData = {
               id: generateUniqueRandomNumber(),
               time: new Date().getTime(),
               content: res.result,
-            });
-            // Taro.navigateTo({
-            //   url: "/pages/result/index",
-            // });
+              setting: user,
+            };
+            const newRecordList = [newData, ...recordList];
+            setRecordList(newRecordList as IRecord[]);
+            setData(newData);
           }
         },
       });
@@ -182,7 +160,7 @@ export default function Index() {
         </Button>
       )}
 
-      {!data && (
+      {/* {!data && (
         <View
           className="my__record"
           onClick={() => {
@@ -193,7 +171,7 @@ export default function Index() {
         >
           我的瞬间
         </View>
-      )}
+      )} */}
       {data && (
         <Poster
           data={data}

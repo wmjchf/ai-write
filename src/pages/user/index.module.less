@@ -19,6 +19,11 @@
         box-sizing: border-box;
         height: 104px;
         padding: 12px 24px;
+        font-size: 30px;
+        font-weight: bold;
+        &.disabled {
+          color: #cdcdcd !important;
+        }
         .right {
           display: flex;
           align-items: center;
@@ -37,11 +42,18 @@
           }
           .disabled {
             color: #cdcdcd;
-            font-size: 24px;
+            font-size: 30px;
+            font-weight: normal;
           }
           .nickname {
             text-align: right;
-            font-size: 24px;
+            font-size: 30px;
+            font-weight: normal;
+          }
+          .height {
+            font-size: 30px;
+            text-align: right;
+            font-weight: normal;
           }
         }
       }

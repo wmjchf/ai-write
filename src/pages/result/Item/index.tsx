@@ -6,7 +6,7 @@ import Taro from "@tarojs/taro";
 import DeletePng from "../image/delete.png";
 import CopyPng from "../image/copy.png";
 import SharePng from "../image/share.png";
-
+import SettingPng from "../image/setting.png";
 import styles from "./index.module.less";
 
 interface IItem {
@@ -57,8 +57,20 @@ export const Item: React.FC<IItem> = (props) => {
     <View className={classNames(styles.item)}>
       <View className={styles.container}>
         <View className={styles.top}>
-          <Text>时间：</Text>
-          <Text>{dayjs(data.time).format("YYYY-MM-DD HH:mm:ss")}</Text>
+          <View className={styles.time}>
+            <Text>时间：</Text>
+            <Text>{dayjs(data.time).format("YYYY-MM-DD HH:mm:ss")}</Text>
+          </View>
+          {/* <View
+            className={styles.setting}
+            onClick={() => {
+              Taro.navigateTo({
+                url: `/pages/user/index?id=${data.id}`,
+              });
+            }}
+          >
+            <Image src={SettingPng}></Image>
+          </View> */}
         </View>
         <View className={styles.bottom}>
           <Text>{data.content}</Text>
@@ -94,15 +106,15 @@ export const Item: React.FC<IItem> = (props) => {
             <Text>分享</Text>
           </View>
           <View
-            className={styles.copy}
+            className={styles.setting}
             onClick={() => {
-              Taro.setClipboardData({
-                data: data.content,
+              Taro.navigateTo({
+                url: `/pages/user/index?id=${data.id}`,
               });
             }}
           >
-            <Image src={CopyPng} />
-            <Text>复制</Text>
+            <Image src={SettingPng} />
+            <Text>自定义</Text>
           </View>
         </View>
       </View>
