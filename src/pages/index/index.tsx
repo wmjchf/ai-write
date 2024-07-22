@@ -104,11 +104,12 @@ export default function Index() {
               content: res.result,
               setting: user,
             };
-            const newRecordList = [newData, ...recordList];
+            // const newRecordList = [newData, ...recordList];
+            const newRecordList = [newData];
             setRecordList(newRecordList as IRecord[]);
 
             Taro.navigateTo({
-              url: "/pages/result/index",
+              url: `/pages/detail/index?id=${newData.id}`,
             });
           }
         },
@@ -149,16 +150,16 @@ export default function Index() {
         </Button>
       )}
 
-      {!data && (
+      {!data && recordList[0] && (
         <View
           className="my__record"
           onClick={() => {
             Taro.navigateTo({
-              url: "/pages/result/index",
+              url: `/pages/detail/index?id=${recordList[0]?.id}`,
             });
           }}
         >
-          我的瞬间
+          瞬间回溯
         </View>
       )}
       {/* {data && (

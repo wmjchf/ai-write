@@ -1,7 +1,9 @@
 import { PropsWithChildren, useEffect } from "react";
 import Taro, { useLaunch } from "@tarojs/taro";
 import "./app.less";
+import "./app.scss";
 import { useCommonStore } from "./store";
+
 import { DEFAULT_SETTING } from "./constant/data";
 
 function App({ children }: PropsWithChildren<any>) {

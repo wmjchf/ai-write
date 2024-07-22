@@ -8,18 +8,22 @@
     .at-swipe-action__option {
       display: flex;
       align-items: center;
-      justify-content: center;
+      text {
+        position: relative;
+        left: 10px;
+      }
+      // justify-content: center;
     }
   }
-  // width: auto !important;
-  // :global {
-  //   .at-swipe-action__area {
-  //     width: auto !important;
-  //   }
-  //   .at-swipe-action__content {
-  //     width: auto !important;
-  //   }
-  // }
+  width: 702px !important;
+  :global {
+    .at-swipe-action__area {
+      width: 702px !;
+    }
+    .at-swipe-action__content {
+      // width: auto !important;
+    }
+  }
   .container {
     width: 702px;
     padding: 32px 24px;
@@ -61,6 +65,7 @@
         &:nth-child(1) {
           color: #3b3b3b;
           font-size: 30px;
+          font-family: "Times New Roman";
         }
       }
     }

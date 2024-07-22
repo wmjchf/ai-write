@@ -17,6 +17,7 @@ export default function Result() {
           {recordList.map((item) => {
             return <Item data={item} key={item.id} />;
           })}
+          <Text>没有更多数据了</Text>
         </View>
       ) : (
         <View className={styles.no__data}>

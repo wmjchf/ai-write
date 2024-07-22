@@ -28,6 +28,30 @@ export const Poster: React.FC<IPoster> = (props) => {
   const weight = data?.setting?.fontWeight || 0;
   const showWater = data?.setting?.showWater;
 
+  // const globalDataRef = useRef<any>({});
+
+  // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
+
+  // useEffect(() => {
+  //   globalDataRef.current.systeminfo = Taro.getSystemInfoSync();
+  //   if (!globalDataRef.current.headerBtnPosi)
+  //     globalDataRef.current.headerBtnPosi =
+  //       Taro.getMenuButtonBoundingClientRect();
+  //   let newstatusBarHeight = globalDataRef.current.systeminfo.statusBarHeight; // 状态栏高度
+  //   let headerPosi = globalDataRef.current.headerBtnPosi; // 胶囊位置信息
+  //   let btnPosi = {
+  //     // 胶囊实际位置，坐标信息不是左上角原点
+  //     height: headerPosi.height,
+  //     width: headerPosi.width,
+  //     top: headerPosi.top - newstatusBarHeight, // 胶囊top - 状态栏高度
+  //     bottom: headerPosi.bottom - headerPosi.height - newstatusBarHeight, // 胶囊bottom - 胶囊height - 状态栏height （胶囊实际bottom 为距离导航栏底部的长度）
+  //     right: globalDataRef.current.systeminfo.windowWidth - headerPosi.right, // 这里不能获取 屏幕宽度，PC端打开小程序会有BUG，要获取窗口高度 - 胶囊right
+  //   };
+
+  //   const newnavbarHeight = headerPosi.bottom + btnPosi.bottom; // 胶囊bottom + 胶囊实际bottom
+  //   setnavbarHeight(newnavbarHeight);
+  // }, []);
+
   useEffect(() => {
     const sysInfo = Taro.getSystemInfoSync();
     const screenWidth = sysInfo.screenWidth;
@@ -151,7 +175,7 @@ export const Poster: React.FC<IPoster> = (props) => {
         ></DrawCanvas>
       );
     }
-  }, [factor, data, fontSize, height, x, y, weight, onLoad]);
+  }, [factor, data, fontSize, height, x, y, weight, onLoad, showWater]);
 
   return (
     <View
@@ -165,6 +189,11 @@ export const Poster: React.FC<IPoster> = (props) => {
       {!loading && (
         <Button
           className={styles.save}
+          style={
+            {
+              // height: `calc(100vh - ${navbarHeight})`,
+            }
+          }
           onClick={async (event) => {
             event.stopPropagation();
             if (haveSetting) {

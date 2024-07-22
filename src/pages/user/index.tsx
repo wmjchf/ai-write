@@ -244,7 +244,7 @@ export default function User() {
           </Button>
           <View className={styles.tip}>
             <Text>
-              说明：目前之有头像和昵称可以自定义，后续会慢慢放开分更多自定义功能
+              说明：目前只有部分可以自定义，后续会慢慢放开分更多自定义功能！
             </Text>
           </View>
         </View>

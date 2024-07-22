@@ -46,7 +46,7 @@ const Detail = () => {
 
   return (
     <View className={styles.detail}>
-      <CustomerHeader position="absolute" title="分享"></CustomerHeader>
+      <CustomerHeader title="分享"></CustomerHeader>
       {Canvas}
       {!loading && (
         <View
