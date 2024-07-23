@@ -29,6 +29,7 @@ export const Poster: React.FC<IPoster> = (props) => {
   const showWater = data?.setting?.showWater;
   const backgroundImage =
     data?.setting?.backgroundImage || DEFAULT_SETTING.backgroundImage;
+  const qrcodeUrl = data?.setting?.qrcodeUrl || DEFAULT_SETTING.qrcodeUrl;
   const fontColor =
     data?.setting?.fontColor == null
       ? DEFAULT_SETTING.fontColor
@@ -36,6 +37,8 @@ export const Poster: React.FC<IPoster> = (props) => {
   const customBackgroundImage =
     data?.setting?.customBackgroundImage ||
     DEFAULT_SETTING.customBackgroundImage;
+  const customQRCodeUrl =
+    data?.setting?.customQRCodeUrl || DEFAULT_SETTING.customQRCodeUrl;
   // const globalDataRef = useRef<any>({});
 
   // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
@@ -105,7 +108,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 borderRadius: 200,
                 x: 225,
                 y: height - 250,
-                url: "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/qrcode.jpg",
+                url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
               },
               {
                 width: 150,

@@ -27,6 +27,8 @@ export interface User {
   backgroundImage: string;
   fontColor: number;
   customBackgroundImage: boolean;
+  qrcodeUrl: string;
+  customQRCodeUrl: boolean;
 }
 
 interface State {

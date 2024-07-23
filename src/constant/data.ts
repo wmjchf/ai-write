@@ -30,4 +30,7 @@ export const DEFAULT_SETTING = {
     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/canvas_1.png",
   fontColor: 1,
   customBackgroundImage: false,
+  customQRCodeUrl: false,
+  qrcodeUrl:
+    "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/qrcode.jpg",
 };

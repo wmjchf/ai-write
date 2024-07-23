@@ -33,8 +33,8 @@ export default function User() {
   const [backgroundImage, setBackgroundImage] = useState<File[]>([]);
   const [customBackgroundImage, setCustomBackgroundImage] = useState(false);
   const [fontColor, setFontColor] = useState(0);
-
-  const [colorPickerVisible, setColorPickerVisible] = useState(false);
+  const [qrcodeUrl, setQRCodeUrl] = useState<File[]>([]);
+  const [customQRCodeUrl, setCustomQRCodeUrl] = useState(false);
 
   useLoad((option) => {
     setId(option.id);
@@ -52,8 +52,11 @@ export default function User() {
       setShowWater(user.showWater);
       user?.backgroundImage &&
         setBackgroundImage([{ url: user?.backgroundImage }]);
+      user?.qrcodeUrl && setQRCodeUrl([{ url: user?.qrcodeUrl }]);
       setCustomBackgroundImage(user?.customBackgroundImage);
+      setCustomQRCodeUrl(user?.customQRCodeUrl);
       setFontColor(user?.fontColor);
+
       return;
     }
 
@@ -66,13 +69,29 @@ export default function User() {
     setY(record?.setting?.y);
     setWeight(record?.setting?.fontWeight);
     setShowWater(record?.setting?.showWater);
-    record?.setting?.backgroundImage &&
-      setBackgroundImage([{ url: record?.setting?.backgroundImage }]);
+
+    setBackgroundImage([
+      {
+        url:
+          record?.setting?.backgroundImage || DEFAULT_SETTING.backgroundImage,
+      },
+    ]);
+
+    setQRCodeUrl([
+      { url: record?.setting?.qrcodeUrl || DEFAULT_SETTING.qrcodeUrl },
+    ]);
     setCustomBackgroundImage(
       record?.setting?.customBackgroundImage ||
         DEFAULT_SETTING.customBackgroundImage
     );
-    setFontColor(record?.setting?.fontColor || DEFAULT_SETTING.fontColor);
+    setCustomQRCodeUrl(
+      record?.setting?.customQRCodeUrl || DEFAULT_SETTING.customQRCodeUrl
+    );
+    setFontColor(
+      record?.setting?.fontColor == null
+        ? DEFAULT_SETTING.fontColor
+        : record?.setting?.fontColor
+    );
   }, [user, id, recordList]);
 
   useEffect(() => {}, []);
@@ -151,6 +170,39 @@ export default function User() {
                 showAddBtn={backgroundImage.length !== 1}
                 onChange={(event) => {
                   setBackgroundImage(event);
+                }}
+                length={1}
+              />
+            </View>
+          </View>
+          <View
+            className={classNames(styles.item, customQRCodeUrl && styles.col)}
+          >
+            <View className={classNames(styles.item__wrap)}>
+              <Text>自定义二维码</Text>
+              <View className={styles.right}>
+                <Switch
+                  checked={customQRCodeUrl}
+                  onChange={(event) => {
+                    setCustomQRCodeUrl(event.detail.value);
+                  }}
+                ></Switch>
+              </View>
+            </View>
+            <View
+              className={classNames(
+                styles.item__content,
+                !customQRCodeUrl && styles.hidden,
+                styles.qrcode
+              )}
+            >
+              <AtImagePicker
+                files={qrcodeUrl}
+                count={1}
+                multiple={false}
+                showAddBtn={qrcodeUrl.length !== 1}
+                onChange={(event) => {
+                  setQRCodeUrl(event);
                 }}
                 length={1}
               />
@@ -271,8 +323,24 @@ export default function User() {
                     backgroundImage: backgroundImage[0]?.url || "",
                     fontColor,
                     customBackgroundImage,
+                    qrcodeUrl: qrcodeUrl[0]?.url || "",
+                    customQRCodeUrl,
                   });
                 } else {
+                  if (customBackgroundImage && !backgroundImage[0]?.url) {
+                    Taro.showToast({
+                      title: "请上传背景图片",
+                      icon: "error",
+                    });
+                    return;
+                  }
+                  if (customQRCodeUrl && !qrcodeUrl[0]?.url) {
+                    Taro.showToast({
+                      title: "请二维码图片",
+                      icon: "error",
+                    });
+                    return;
+                  }
                   const newRecordList = recordList.map((item) => {
                     if (item.id === id) {
                       return {
@@ -289,6 +357,8 @@ export default function User() {
                           backgroundImage: backgroundImage[0]?.url || "",
                           fontColor,
                           customBackgroundImage,
+                          qrcodeUrl: qrcodeUrl[0]?.url || "",
+                          customQRCodeUrl,
                         },
                       };
                     }

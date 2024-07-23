@@ -45,6 +45,33 @@
             overflow: hidden;
             width: 0;
           }
+          &.qrcode {
+            height: 200px;
+            :global {
+              .at-image-picker {
+                height: 100%;
+                .at-image-picker__flex-box {
+                  height: 100%;
+                  padding: 0;
+                  .at-image-picker__flex-item {
+                    margin-left: 0;
+
+                    .at-image-picker__choose-btn {
+                      width: 200px;
+                      border-radius: 24px;
+                    }
+                    .at-image-picker__item {
+                      width: 200px;
+                      .at-image-picker__preview-img {
+                        width: 100%;
+                        border-radius: 24px;
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
           :global {
             .at-image-picker {
               height: 100%;
