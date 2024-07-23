@@ -183,6 +183,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
     queue.forEach((item) => {
       let drawOptions = {
         ctx: ctxRef.current as CanvasContext,
+        canvasId: config.canvasId,
         toPx: toPx,
         toRpx: toRpx,
       };

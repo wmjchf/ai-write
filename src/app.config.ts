@@ -5,6 +5,9 @@ export default defineAppConfig({
     "pages/user/index",
     "pages/detail/index",
   ],
+  usingComponents: Object.assign({
+    "color-picker": "components/ColorPicker/color-picker",
+  }),
   window: {
     backgroundTextStyle: "light",
     navigationBarBackgroundColor: "#fff",

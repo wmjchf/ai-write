@@ -13,6 +13,7 @@ export interface IDrawOptions {
   ctx: CanvasContext;
   toPx: (rpx: number, int?: boolean, factor?: number) => number;
   toRpx: (px: number, int?: boolean, factor?: number) => number;
+  canvasId: string;
 }
 
 /**
@@ -377,6 +378,7 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       toPx(h)
     );
   }
+
   ctx.restore();
 }
 
@@ -510,4 +512,84 @@ export function drawBlock(blockData: IBlock, drawOptions: IDrawOptions) {
   if (text) {
     drawText(Object.assign(text, { x: textX, y: textY }), drawOptions);
   }
+}
+// 高斯模糊算法
+function gaussianBlur(imageData, radius) {
+  const pixels = imageData.data;
+  const width = imageData.width;
+  const height = imageData.height;
+
+  const kernel = getGaussianKernel(radius);
+  const kernelSize = kernel.length;
+  const halfKernelSize = Math.floor(kernelSize / 2);
+
+  const blurredPixels = new Uint8ClampedArray(pixels.length);
+
+  for (let y = 0; y < height; y++) {
+    for (let x = 0; x < width; x++) {
+      let r = 0,
+        g = 0,
+        b = 0,
+        a = 0;
+      let totalWeight = 0;
+
+      for (let ky = -halfKernelSize; ky <= halfKernelSize; ky++) {
+        for (let kx = -halfKernelSize; kx <= halfKernelSize; kx++) {
+          const pixelY = y + ky;
+          const pixelX = x + kx;
+
+          if (pixelY >= 0 && pixelY < height && pixelX >= 0 && pixelX < width) {
+            const pixelIndex = (pixelY * width + pixelX) * 4;
+            const weight = kernel[ky + halfKernelSize][kx + halfKernelSize];
+
+            r += pixels[pixelIndex] * weight;
+            g += pixels[pixelIndex + 1] * weight;
+            b += pixels[pixelIndex + 2] * weight;
+            a += pixels[pixelIndex + 3] * weight;
+            totalWeight += weight;
+          }
+        }
+      }
+
+      const outputIndex = (y * width + x) * 4;
+      blurredPixels[outputIndex] = r / totalWeight;
+      blurredPixels[outputIndex + 1] = g / totalWeight;
+      blurredPixels[outputIndex + 2] = b / totalWeight;
+      blurredPixels[outputIndex + 3] = a / totalWeight;
+    }
+  }
+
+  return {
+    data: blurredPixels,
+    width: width,
+    height: height,
+  };
+}
+
+// 生成高斯核
+function getGaussianKernel(radius) {
+  const kernelSize = radius * 2 + 1;
+  const kernel = new Array(kernelSize)
+    .fill(0)
+    .map(() => new Array(kernelSize).fill(0));
+  const sigma = radius / 3;
+  const twoSigmaSquare = 2 * sigma * sigma;
+  const sigmaRoot = Math.sqrt(twoSigmaSquare * Math.PI);
+  let total = 0;
+
+  for (let y = -radius; y <= radius; y++) {
+    for (let x = -radius; x <= radius; x++) {
+      const weight = Math.exp(-(x * x + y * y) / twoSigmaSquare) / sigmaRoot;
+      kernel[y + radius][x + radius] = weight;
+      total += weight;
+    }
+  }
+
+  for (let y = 0; y < kernelSize; y++) {
+    for (let x = 0; x < kernelSize; x++) {
+      kernel[y][x] /= total;
+    }
+  }
+
+  return kernel;
 }

@@ -11,6 +11,11 @@ export const WEIGHT_OPTION = [
   },
 ];
 
+export const COLOR_OPTION = [
+  { id: 0, value: "#fff", label: "白色" },
+  { id: 1, value: "#000", label: "黑色" },
+];
+
 export const DEFAULT_SETTING = {
   nickname: "音瞬",
   avatarUrl:
@@ -21,4 +26,8 @@ export const DEFAULT_SETTING = {
   y: "350",
   fontWeight: 0,
   showWater: true,
+  backgroundImage:
+    "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/canvas_1.png",
+  fontColor: 1,
+  customBackgroundImage: false,
 };

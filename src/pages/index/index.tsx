@@ -1,13 +1,11 @@
-import { View, Button, Text, Image } from "@tarojs/components";
+import { View, Button, Image } from "@tarojs/components";
 import { useRef, useState } from "react";
 import Taro, { requirePlugin, useDidShow } from "@tarojs/taro";
 import classnames from "classnames";
 import { handleAuth } from "@/utils";
 import { useCommonStore } from "@/store";
 import { IRecord } from "@/store/common";
-import { CustomerHeader } from "@/components/Header";
-import SettingPng from "./image/setting.png";
-import { Poster } from "../result/Poster";
+import FontPng from "./image/font.png";
 import Lottie from "../../components/Lottie";
 import VoicePng from "./image/voice.png";
 import "./index.less";
@@ -135,8 +133,9 @@ export default function Index() {
         </View>
         {!start && (
           <View className="adver">
-            <Text>释放声音，捕捉每一个文字.</Text>
-            <Text>让每一个灵感都被记录，让每一个瞬间都被珍惜.</Text>
+            {/* <Text>释放声音，捕捉每一个文字.</Text>
+            <Text>让每一个灵感都被记录，让每一个瞬间都被珍惜.</Text> */}
+            <Image src={FontPng}></Image>
           </View>
         )}
       </View>

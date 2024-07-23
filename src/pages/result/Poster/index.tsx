@@ -3,7 +3,7 @@ import { Button, View } from "@tarojs/components";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { IRecord, useCommonStore } from "@/store/common";
 import { DrawCanvas } from "@/components/DrawCanvas";
-import { WEIGHT_OPTION } from "@/constant/data";
+import { COLOR_OPTION, DEFAULT_SETTING, WEIGHT_OPTION } from "@/constant/data";
 import { handleAuth } from "@/utils";
 import dayjs from "dayjs";
 import styles from "./index.module.less";
@@ -27,7 +27,15 @@ export const Poster: React.FC<IPoster> = (props) => {
   const y = parseInt(data?.setting?.y || "350");
   const weight = data?.setting?.fontWeight || 0;
   const showWater = data?.setting?.showWater;
-
+  const backgroundImage =
+    data?.setting?.backgroundImage || DEFAULT_SETTING.backgroundImage;
+  const fontColor =
+    data?.setting?.fontColor == null
+      ? DEFAULT_SETTING.fontColor
+      : data?.setting?.fontColor;
+  const customBackgroundImage =
+    data?.setting?.customBackgroundImage ||
+    DEFAULT_SETTING.customBackgroundImage;
   // const globalDataRef = useRef<any>({});
 
   // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
@@ -86,7 +94,9 @@ export const Poster: React.FC<IPoster> = (props) => {
                 x: 0,
                 y: 0,
                 // borderRadius: 32,
-                url: "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/canvas_1.png",
+                url: customBackgroundImage
+                  ? backgroundImage
+                  : DEFAULT_SETTING.backgroundImage,
               },
               {
                 width: 200,
@@ -118,7 +128,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 x,
                 y,
                 fontSize,
-                color: "#333",
+                color: COLOR_OPTION[fontColor].value,
                 fontFamily: "Times New Roman",
                 fontWeight: WEIGHT_OPTION[weight].value,
               },
@@ -147,19 +157,19 @@ export const Poster: React.FC<IPoster> = (props) => {
                 fontFamily: "Times New Roman",
                 // textAlign: "center",
               },
-              {
-                text: "音瞬官方认证",
-                type: "text",
-                width: 360,
-                lineNum: 1,
-                lineHeight: 40,
-                x: 410,
-                y: 1070,
-                fontSize: 35,
-                color: "rgba(230, 230, 230, 0.3)",
-                fontFamily: "Times New Roman",
-                opacity: showWater ? 1 : 0,
-              },
+              // {
+              //   text: "音瞬官方认证",
+              //   type: "text",
+              //   width: 360,
+              //   lineNum: 1,
+              //   lineHeight: 40,
+              //   x: 410,
+              //   y: 1070,
+              //   fontSize: 35,
+              //   color: "rgba(230, 230, 230, 0.3)",
+              //   fontFamily: "Times New Roman",
+              //   opacity: showWater ? 1 : 0,
+              // },
             ],
           }}
           onCreateFail={(err) => {

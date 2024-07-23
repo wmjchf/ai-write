@@ -24,6 +24,9 @@ export interface User {
   y: string;
   fontWeight: number;
   showWater: boolean;
+  backgroundImage: string;
+  fontColor: number;
+  customBackgroundImage: boolean;
 }
 
 interface State {

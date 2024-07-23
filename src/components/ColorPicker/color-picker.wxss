@@ -1,0 +1,110 @@
+.dialog {
+  position: fixed;
+  left: 100rpx;
+  bottom: 100rpx;
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+  width: 440rpx;
+  height: 440rpx;
+  padding: 30rpx 10rpx 0rpx;
+  box-sizing: initial;
+  background: rgb(255, 255, 255);
+  border-radius: 4rpx;
+  z-index: 1000;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 0px 1px, rgb(0 0 0 / 15%) 0px 8px 16px;
+}
+
+.dialog_show {
+  visibility: visible;
+  opacity: 1;
+}
+
+.target {
+  height: 300rpx;
+  width: 400rpx;
+  margin: 0 auto;
+  background-image: url(https://cdn.jsdelivr.net/gh/makergyt/mini-color-picker@v0.1.2/screenshot/color_picker_mask.png);
+  overflow: hidden;
+}
+
+.ribbon {
+  background: -webkit-linear-gradient(
+    left,
+    #f00 0%,
+    #ff0 17%,
+    #0f0 33%,
+    #0ff 50%,
+    #00f 67%,
+    #f0f 83%,
+    #f00 100%
+  );
+  width: 400rpx;
+  margin: 40rpx auto;
+}
+
+@font-face {
+  font-family: "iconfont";
+  src: url(data:font/truetype;charset=utf-8;base64,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)
+    format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+
+.iconfont {
+  font-family: "iconfont" !important;
+  font-size: 28px;
+  line-height: 28px;
+  height: 28px;
+  width: 28px;
+  color: white;
+  text-align: center;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-ios-locate-outline:before {
+  content: "\ea49";
+}
+
+.weui-actionsheet {
+}
+
+.weui-actionsheet_toggle {
+  transform: translate(0, 0);
+}
+.weui-half-screen-dialog__hd {
+  position: absolute;
+  top: -30rpx;
+  right: -30rpx;
+  width: 60rpx;
+  height: 60rpx;
+  display: flex;
+  align-items: item;
+  background: #fff;
+  box-shadow: rgb(0 0 0 / 15%) 0px 0px 0px 1px, rgb(0 0 0 / 15%) 0px 8px 16px;
+  border-radius: 50%;
+  justify-content: center;
+}
+.weui-icon-close-thin {
+  -webkit-mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.25%2010.693L6.057%204.5%205%205.557l6.193%206.193L5%2017.943%206.057%2019l6.193-6.193L18.443%2019l1.057-1.057-6.193-6.193L19.5%205.557%2018.443%204.5z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+  mask-image: url(data:image/svg+xml,%3Csvg%20width%3D%2224%22%20height%3D%2224%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3Cpath%20d%3D%22M12.25%2010.693L6.057%204.5%205%205.557l6.193%206.193L5%2017.943%206.057%2019l6.193-6.193L18.443%2019l1.057-1.057-6.193-6.193L19.5%205.557%2018.443%204.5z%22%20fill-rule%3D%22evenodd%22%2F%3E%3C%2Fsvg%3E);
+  display: inline-block;
+  vertical-align: middle;
+  width: 24px;
+  height: 24px;
+  -webkit-mask-position: 50% 50%;
+  mask-position: 50% 50%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: 100%;
+  mask-size: 100%;
+  background-color: currentColor;
+}
+.weui-icon-btn {
+  position: absolute;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+}

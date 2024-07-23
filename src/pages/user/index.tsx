@@ -8,12 +8,14 @@ import {
   Switch,
 } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
+import { AtImagePicker } from "taro-ui";
 import classNames from "classnames";
+import { File } from "taro-ui/types/image-picker";
 import { useEffect, useRef, useState } from "react";
 import { useCommonStore } from "@/store";
 import { IRecord } from "@/store/common";
 import { CustomerHeader } from "@/components/Header";
-import { WEIGHT_OPTION } from "@/constant/data";
+import { COLOR_OPTION, DEFAULT_SETTING, WEIGHT_OPTION } from "@/constant/data";
 import AvatarPng from "./image/avatar.png";
 import styles from "./index.module.less";
 
@@ -28,6 +30,11 @@ export default function User() {
   const [weight, setWeight] = useState(0);
   const [id, setId] = useState("");
   const [showWater, setShowWater] = useState(true);
+  const [backgroundImage, setBackgroundImage] = useState<File[]>([]);
+  const [customBackgroundImage, setCustomBackgroundImage] = useState(false);
+  const [fontColor, setFontColor] = useState(0);
+
+  const [colorPickerVisible, setColorPickerVisible] = useState(false);
 
   useLoad((option) => {
     setId(option.id);
@@ -43,6 +50,10 @@ export default function User() {
       setY(user.y);
       setWeight(user.fontWeight);
       setShowWater(user.showWater);
+      user?.backgroundImage &&
+        setBackgroundImage([{ url: user?.backgroundImage }]);
+      setCustomBackgroundImage(user?.customBackgroundImage);
+      setFontColor(user?.fontColor);
       return;
     }
 
@@ -55,10 +66,17 @@ export default function User() {
     setY(record?.setting?.y);
     setWeight(record?.setting?.fontWeight);
     setShowWater(record?.setting?.showWater);
+    record?.setting?.backgroundImage &&
+      setBackgroundImage([{ url: record?.setting?.backgroundImage }]);
+    setCustomBackgroundImage(
+      record?.setting?.customBackgroundImage ||
+        DEFAULT_SETTING.customBackgroundImage
+    );
+    setFontColor(record?.setting?.fontColor || DEFAULT_SETTING.fontColor);
   }, [user, id, recordList]);
 
   useEffect(() => {}, []);
-
+  console.log(fontColor, "fsd");
   return (
     <View className={styles.user}>
       <CustomerHeader title="设置"></CustomerHeader>
@@ -92,7 +110,7 @@ export default function User() {
               />
             </View>
           </View>
-          <View className={styles.item}>
+          {/* <View className={styles.item}>
             <Text>是否显示音瞬水印</Text>
             <View className={styles.right}>
               <Switch
@@ -102,7 +120,65 @@ export default function User() {
                 }}
               ></Switch>
             </View>
+          </View> */}
+          <View
+            className={classNames(
+              styles.item,
+              customBackgroundImage && styles.col
+            )}
+          >
+            <View className={classNames(styles.item__wrap)}>
+              <Text>自定义背景</Text>
+              <View className={styles.right}>
+                <Switch
+                  checked={customBackgroundImage}
+                  onChange={(event) => {
+                    setCustomBackgroundImage(event.detail.value);
+                  }}
+                ></Switch>
+              </View>
+            </View>
+            <View
+              className={classNames(
+                styles.item__content,
+                !customBackgroundImage && styles.hidden
+              )}
+            >
+              <AtImagePicker
+                files={backgroundImage}
+                count={1}
+                multiple={false}
+                showAddBtn={backgroundImage.length !== 1}
+                onChange={(event) => {
+                  setBackgroundImage(event);
+                }}
+                length={1}
+              />
+            </View>
           </View>
+          <View className={classNames(styles.item)}>
+            <Text>自定义文字颜色</Text>
+            <View className={styles.right}>
+              <Picker
+                className={styles.height}
+                value={fontColor}
+                rangeKey="label"
+                range={COLOR_OPTION}
+                onChange={(event) => {
+                  setFontColor(parseInt(event.detail.value as string));
+                }}
+              >
+                {COLOR_OPTION[fontColor]?.label || "请选择"}
+              </Picker>
+            </View>
+          </View>
+
+          {/* <View className={classNames(styles.item, styles.disabled)}>
+            <Text>是否自定义二维码</Text>
+            <View className={styles.right}>
+              <Switch disabled></Switch>
+            </View>
+          </View> */}
           {/* <View className={styles.item}>
             <Text>自定义画布高度</Text>
             <View className={styles.right}>
@@ -116,7 +192,7 @@ export default function User() {
               />
             </View>
           </View> */}
-          <View className={classNames(styles.item, styles.disabled)}>
+          {/* <View className={classNames(styles.item, styles.disabled)}>
             <Text>自定义文字位置x</Text>
             <View className={styles.right}>
               <Input
@@ -143,8 +219,8 @@ export default function User() {
                 }}
               />
             </View>
-          </View>
-          <View className={classNames(styles.item, styles.disabled)}>
+          </View> */}
+          {/* <View className={classNames(styles.item, styles.disabled)}>
             <Text>自定义文字粗细</Text>
             <View className={styles.right}>
               <Picker
@@ -174,25 +250,7 @@ export default function User() {
                 }}
               />
             </View>
-          </View>
-          <View className={classNames(styles.item, styles.disabled)}>
-            <Text>是否自定义文字颜色</Text>
-            <View className={styles.right}>
-              <Switch disabled></Switch>
-            </View>
-          </View>
-          <View className={classNames(styles.item, styles.disabled)}>
-            <Text>是否自定义背景</Text>
-            <View className={styles.right}>
-              <Switch disabled></Switch>
-            </View>
-          </View>
-          <View className={classNames(styles.item, styles.disabled)}>
-            <Text>是否自定义二维码</Text>
-            <View className={styles.right}>
-              <Switch disabled></Switch>
-            </View>
-          </View>
+          </View> */}
         </View>
         <View className={styles.btn}>
           <Button
@@ -210,6 +268,9 @@ export default function User() {
                     y,
                     fontWeight: weight,
                     showWater,
+                    backgroundImage: backgroundImage[0]?.url || "",
+                    fontColor,
+                    customBackgroundImage,
                   });
                 } else {
                   const newRecordList = recordList.map((item) => {
@@ -225,6 +286,9 @@ export default function User() {
                           y,
                           fontWeight: weight,
                           showWater,
+                          backgroundImage: backgroundImage[0]?.url || "",
+                          fontColor,
+                          customBackgroundImage,
                         },
                       };
                     }
