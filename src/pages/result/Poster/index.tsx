@@ -119,6 +119,28 @@ export const Poster: React.FC<IPoster> = (props) => {
                 y: 140,
                 url: data?.setting?.avatarUrl as string,
               },
+              {
+                width: 80,
+                height: 80,
+                type: "image",
+                borderRadius: 80,
+                x: 485,
+                y: 935,
+                url: DEFAULT_SETTING.avatarUrl,
+                zIndex: 10001,
+              },
+            ],
+            blocks: [
+              {
+                width: 100,
+                height: 100,
+                borderRadius: 100,
+                backgroundColor: "#fff",
+                x: 475,
+                y: 925,
+                type: "block",
+                zIndex: 10000,
+              },
             ],
             qrcodes: [
               {

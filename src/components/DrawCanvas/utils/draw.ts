@@ -446,6 +446,7 @@ export function drawBlock(blockData: IBlock, drawOptions: IDrawOptions) {
   let blockWidth = 0; // 块的宽度
   let textX = 0;
   let textY = 0;
+
   if (typeof text !== "undefined") {
     // 如果有文字并且块的宽度小于文字宽度，块的宽度为 文字的宽度 + 内边距
     // const textWidth = _getTextWidth(typeof text.text === 'string' ? text : text.text, drawOptions);
@@ -594,38 +595,38 @@ export function drawQrcode(item: IQRCode, drawOptions: IDrawOptions) {
       }
     }
 
-    if (options.image?.imageResource) {
-      const imgW = options.image.width * dpr;
-      const imgH = options.image.height * dpr;
-      const dx = (width - imgW) / 2;
-      const dy = (width - imgH) / 2;
-      if (options.image.round) {
-        // Logo边框
-        const imgW2 = options.image.width * dpr + 30;
-        const dx2 = (width - imgW2) / 2;
-        const r2 = imgW2 / 2;
-        const cx2 = dx2 + r2;
-        ctx.beginPath();
-        ctx.arc(cx2, cx2, r2, 0, 2 * Math.PI);
-        ctx.fillStyle = "#ffffff";
-        ctx.fill();
-        ctx.restore();
+    // if (options.image?.imageResource) {
+    //   const imgW = options.image.width * dpr;
+    //   const imgH = options.image.height * dpr;
+    //   const dx = (width - imgW) / 2;
+    //   const dy = (width - imgH) / 2;
+    //   if (options.image.round) {
+    //     // Logo边框
+    //     const imgW2 = options.image.width * dpr + 30;
+    //     const dx2 = (width - imgW2) / 2;
+    //     const r2 = imgW2 / 2;
+    //     const cx2 = dx2 + r2;
+    //     ctx.beginPath();
+    //     ctx.arc(cx2, cx2, r2, 0, 2 * Math.PI);
+    //     ctx.fillStyle = "#ffffff";
+    //     ctx.fill();
+    //     ctx.restore();
 
-        // 画Logo
-        const r = imgW / 2;
-        const cx = dx + r;
-        const cy = dy + r;
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, 2 * Math.PI);
-        ctx.clip();
+    //     // 画Logo
+    //     const r = imgW / 2;
+    //     const cx = dx + r;
+    //     const cy = dy + r;
+    //     ctx.beginPath();
+    //     ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+    //     ctx.clip();
 
-        ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgW);
-        ctx.restore();
-      } else {
-        ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgH);
-        ctx.restore();
-      }
-    }
+    //     ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgW);
+    //     ctx.restore();
+    //   } else {
+    //     ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgH);
+    //     ctx.restore();
+    //   }
+    // }
   }
 }
 // 高斯模糊算法
