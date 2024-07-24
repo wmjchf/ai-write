@@ -4,7 +4,13 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import { IConfig, IIMage } from "./type";
 
 import { downloadImageAndInfo, getHeight } from "./utils/tools";
-import { drawBlock, drawImage, drawLine, drawText } from "./utils/draw";
+import {
+  drawBlock,
+  drawImage,
+  drawLine,
+  drawQrcode,
+  drawText,
+} from "./utils/draw";
 
 interface IDrawCanvas {
   config: IConfig;
@@ -152,6 +158,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
     const {
       texts = [],
       // images = [],
+      qrcodes = [],
       blocks = [],
       lines = [],
     } = config;
@@ -176,17 +183,26 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
           item.zIndex = item.zIndex || 0;
           return item;
         })
+      )
+      .concat(
+        qrcodes.map((item) => {
+          item.type = "qrcode";
+          item.zIndex = item.zIndex || 0;
+          return item;
+        })
       );
+
     // 按照顺序排序
     queue.sort((a, b) => a.zIndex - b.zIndex);
-
+    let drawOptions = {
+      ctx: ctxRef.current as CanvasContext,
+      canvasId: config.canvasId,
+      toPx: toPx,
+      toRpx: toRpx,
+      pxWidth,
+      pxHeight,
+    };
     queue.forEach((item) => {
-      let drawOptions = {
-        ctx: ctxRef.current as CanvasContext,
-        canvasId: config.canvasId,
-        toPx: toPx,
-        toRpx: toRpx,
-      };
       if (item.type === "image") {
         if (drawOptions.ctx !== null) {
           drawImage(item, drawOptions);
@@ -203,6 +219,8 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
         if (drawOptions.ctx !== null) {
           drawLine(item, drawOptions);
         }
+      } else if (item.type === "qrcode") {
+        drawQrcode(item, drawOptions);
       }
     });
 

@@ -1,5 +1,8 @@
 import Taro, { CanvasContext } from "@tarojs/taro";
-import { IText, IIMage, ILine, IBlock } from "../type";
+import extend from "extend";
+import { IText, IIMage, ILine, IBlock, IQRCode } from "../type";
+import { QRCode, QRErrorCorrectLevel } from "./qrcode";
+import { utf16to8 } from "./tools";
 
 export interface IDrawRadiusRectData {
   x: number;
@@ -14,6 +17,8 @@ export interface IDrawOptions {
   toPx: (rpx: number, int?: boolean, factor?: number) => number;
   toRpx: (px: number, int?: boolean, factor?: number) => number;
   canvasId: string;
+  pxWidth?: number;
+  pxHeight?: number;
 }
 
 /**
@@ -511,6 +516,116 @@ export function drawBlock(blockData: IBlock, drawOptions: IDrawOptions) {
 
   if (text) {
     drawText(Object.assign(text, { x: textX, y: textY }), drawOptions);
+  }
+}
+
+export function drawQrcode(item: IQRCode, drawOptions: IDrawOptions) {
+  const { ctx, toPx } = drawOptions;
+
+  let options = item || {};
+  options = extend(
+    true,
+    {
+      padding: 15,
+      // paddingColor: '#ffffff', // 默认与background一致
+      typeNumber: -1,
+      correctLevel: QRErrorCorrectLevel.H,
+      background: "#ffffff",
+      foreground: "#000000",
+      image: {
+        imageResource: "",
+        width: 80,
+        height: 80,
+        round: true,
+      },
+    },
+    options
+  );
+
+  if (!options.paddingColor) options.paddingColor = options.background;
+
+  return new Promise(function (resolve) {
+    return resolve(createCanvas());
+  });
+
+  function createCanvas() {
+    // create the qrcode itself
+    const qrcode1 = new QRCode(options.typeNumber, options.correctLevel);
+    qrcode1.addData(utf16to8(options.text));
+    qrcode1.make();
+
+    var dpr = 1;
+    // #ifdef MP-WEIXIN
+    dpr = wx.getSystemInfoSync().pixelRatio;
+    // #endif
+
+    const width = toPx(options.width);
+
+    // 背景色
+    ctx.fillStyle = options.paddingColor as string;
+
+    ctx.fillRect(toPx(options.x), toPx(options.y), width, width);
+
+    var tileW =
+      (width - toPx((options.padding as number) * 2)) /
+      qrcode1.getModuleCount();
+    var tileH =
+      (width - toPx((options.padding as number) * 2)) /
+      qrcode1.getModuleCount();
+
+    // 开始画二维码
+    for (var row = 0; row < qrcode1.getModuleCount(); row++) {
+      for (var col = 0; col < qrcode1.getModuleCount(); col++) {
+        ctx.fillStyle = qrcode1.isDark(row, col)
+          ? (options.foreground as string)
+          : (options.background as string);
+        var w = Math.ceil((col + 1) * tileW) - Math.floor(col * tileW);
+        var h = Math.ceil((row + 1) * tileW) - Math.floor(row * tileW);
+        ctx.fillRect(
+          toPx(options.x) +
+            Math.round(col * tileW) +
+            toPx(options.padding as number),
+          toPx(options.y) +
+            Math.round(row * tileH) +
+            toPx(options.padding as number),
+          w,
+          h
+        );
+      }
+    }
+
+    if (options.image?.imageResource) {
+      const imgW = options.image.width * dpr;
+      const imgH = options.image.height * dpr;
+      const dx = (width - imgW) / 2;
+      const dy = (width - imgH) / 2;
+      if (options.image.round) {
+        // Logo边框
+        const imgW2 = options.image.width * dpr + 30;
+        const dx2 = (width - imgW2) / 2;
+        const r2 = imgW2 / 2;
+        const cx2 = dx2 + r2;
+        ctx.beginPath();
+        ctx.arc(cx2, cx2, r2, 0, 2 * Math.PI);
+        ctx.fillStyle = "#ffffff";
+        ctx.fill();
+        ctx.restore();
+
+        // 画Logo
+        const r = imgW / 2;
+        const cx = dx + r;
+        const cy = dy + r;
+        ctx.beginPath();
+        ctx.arc(cx, cy, r, 0, 2 * Math.PI);
+        ctx.clip();
+
+        ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgW);
+        ctx.restore();
+      } else {
+        ctx.drawImage(options.image.imageResource, dx, dy, imgW, imgH);
+        ctx.restore();
+      }
+    }
   }
 }
 // 高斯模糊算法

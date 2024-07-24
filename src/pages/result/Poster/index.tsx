@@ -101,15 +101,15 @@ export const Poster: React.FC<IPoster> = (props) => {
                   ? backgroundImage
                   : DEFAULT_SETTING.backgroundImage,
               },
-              {
-                width: 200,
-                height: 200,
-                type: "image",
-                borderRadius: 200,
-                x: 225,
-                y: height - 250,
-                url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
-              },
+              // {
+              //   width: 200,
+              //   height: 200,
+              //   type: "image",
+              //   borderRadius: 200,
+              //   x: 225,
+              //   y: height - 250,
+              //   url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
+              // },
               {
                 width: 150,
                 height: 150,
@@ -120,7 +120,25 @@ export const Poster: React.FC<IPoster> = (props) => {
                 url: data?.setting?.avatarUrl as string,
               },
             ],
-
+            qrcodes: [
+              {
+                width: 250,
+                height: 250,
+                x: 400,
+                y: 850,
+                text: `昵称：${data.setting.nickname}\n时间：${dayjs(
+                  data.time
+                ).format("YYYY-MM-DD HH:mm:ss")}`,
+                type: "qrcode",
+                // image: {
+                //   width: 80,
+                //   height: 80,
+                //   round: true,
+                //   imageResource:
+                //     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/icon.png",
+                // },
+              },
+            ],
             texts: [
               {
                 text: data.content,

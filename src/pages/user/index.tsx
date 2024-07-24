@@ -95,10 +95,10 @@ export default function User() {
   }, [user, id, recordList]);
 
   useEffect(() => {}, []);
-  console.log(fontColor, "fsd");
+
   return (
     <View className={styles.user}>
-      <CustomerHeader title="设置"></CustomerHeader>
+      <CustomerHeader title="自定义分享"></CustomerHeader>
       <View className={styles.container}>
         <View className={styles.content}>
           <View className={styles.item}>
@@ -175,14 +175,35 @@ export default function User() {
               />
             </View>
           </View>
-          <View
-            className={classNames(styles.item, customQRCodeUrl && styles.col)}
+          <View className={classNames(styles.item)}>
+            <Text>自定义文字颜色</Text>
+            <View className={styles.right}>
+              <Picker
+                className={styles.height}
+                value={fontColor}
+                rangeKey="label"
+                range={COLOR_OPTION}
+                onChange={(event) => {
+                  setFontColor(parseInt(event.detail.value as string));
+                }}
+              >
+                {COLOR_OPTION[fontColor]?.label || "请选择"}
+              </Picker>
+            </View>
+          </View>
+          {/* <View
+            className={classNames(
+              styles.item,
+              styles.disabled,
+              customQRCodeUrl && styles.col
+            )}
           >
             <View className={classNames(styles.item__wrap)}>
               <Text>自定义二维码</Text>
               <View className={styles.right}>
                 <Switch
                   checked={customQRCodeUrl}
+                  disabled
                   onChange={(event) => {
                     setCustomQRCodeUrl(event.detail.value);
                   }}
@@ -207,23 +228,7 @@ export default function User() {
                 length={1}
               />
             </View>
-          </View>
-          <View className={classNames(styles.item)}>
-            <Text>自定义文字颜色</Text>
-            <View className={styles.right}>
-              <Picker
-                className={styles.height}
-                value={fontColor}
-                rangeKey="label"
-                range={COLOR_OPTION}
-                onChange={(event) => {
-                  setFontColor(parseInt(event.detail.value as string));
-                }}
-              >
-                {COLOR_OPTION[fontColor]?.label || "请选择"}
-              </Picker>
-            </View>
-          </View>
+          </View> */}
 
           {/* <View className={classNames(styles.item, styles.disabled)}>
             <Text>是否自定义二维码</Text>

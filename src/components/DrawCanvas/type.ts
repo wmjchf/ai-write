@@ -10,8 +10,32 @@ export interface IConfig {
   blocks?: IBlock[];
   texts?: IText[];
   images?: IIMage[];
+  qrcodes?: IQRCode[];
   lines?: ILine[];
   factor: number;
+}
+
+export interface IQRCode {
+  type: string;
+  text: string;
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  padding?: number;
+  // paddingColor: '#ffffff', // 默认与background一致
+  typeNumber?: -1;
+  correctLevel?: number;
+  background?: string;
+  foreground?: string;
+  paddingColor?: string;
+  image?: {
+    imageResource: string;
+    width: number;
+    height: number;
+    round: boolean;
+  };
+  zIndex?: number;
 }
 
 export interface IBlock {
