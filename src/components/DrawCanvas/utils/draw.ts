@@ -340,8 +340,11 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
     borderRadius = 0,
     borderWidth = 0,
     borderColor,
+    opacity = 1,
   } = data;
+
   ctx.save();
+
   if (borderRadius > 0) {
     let drawData = {
       x,
@@ -350,10 +353,12 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       h,
       r: borderRadius,
     };
+
     _drawRadiusRect(drawData, drawOptions);
     ctx.strokeStyle = "rgba(255,255,255,0)";
     ctx.stroke();
     ctx.clip();
+
     ctx.drawImage(
       imgPath,
       toPx(sx),
@@ -365,6 +370,7 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       toPx(w),
       toPx(h)
     );
+
     if (borderWidth > 0) {
       borderColor && ctx.setStrokeStyle(borderColor);
       ctx.setLineWidth(toPx(borderWidth));

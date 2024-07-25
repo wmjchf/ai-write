@@ -2,7 +2,8 @@
   "miniprogramRoot": "./dist",
   "projectname": "ai-write",
   "description": "ai语音转文字，每一刻都将被记录",
-  "appid": "touristappid",
+  "appid": "wxdb1d8a9ef1ad7e95",
+  "cloudfunctionRoot": "cloudfunctions/",
   "setting": {
     "urlCheck": true,
     "es6": false,

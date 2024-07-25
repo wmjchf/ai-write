@@ -61,13 +61,13 @@ export default function User() {
     }
 
     const record = recordList.find((item) => item.id === id) as IRecord;
-    setNickname(record?.setting?.nickname);
-    setAvatarUrl(record?.setting?.avatarUrl);
-    setHeight(record?.setting?.height);
-    setFontSize(record?.setting?.fontSize);
-    setX(record?.setting?.x);
-    setY(record?.setting?.y);
-    setWeight(record?.setting?.fontWeight);
+    setNickname(record?.setting?.nickname || DEFAULT_SETTING.nickname);
+    setAvatarUrl(record?.setting?.avatarUrl || DEFAULT_SETTING.avatarUrl);
+    setHeight(record?.setting?.height || DEFAULT_SETTING.height);
+    setFontSize(record?.setting?.fontSize || DEFAULT_SETTING.fontSize);
+    setX(record?.setting?.x || DEFAULT_SETTING.x);
+    setY(record?.setting?.y || DEFAULT_SETTING.y);
+    setWeight(record?.setting?.fontWeight || DEFAULT_SETTING.fontWeight);
     setShowWater(record?.setting?.showWater);
 
     setBackgroundImage([
@@ -249,7 +249,7 @@ export default function User() {
               />
             </View>
           </View> */}
-          {/* <View className={classNames(styles.item, styles.disabled)}>
+          {/* <View className={classNames(styles.item)}>
             <Text>自定义文字位置x</Text>
             <View className={styles.right}>
               <Input
@@ -259,25 +259,23 @@ export default function User() {
                 onInput={(event) => {
                   setX(event.detail.value);
                 }}
-                disabled
               />
             </View>
           </View>
-          <View className={classNames(styles.item, styles.disabled)}>
+          <View className={classNames(styles.item)}>
             <Text>自定义文字位置y</Text>
             <View className={styles.right}>
               <Input
                 placeholder="请输入位置y"
                 className={styles.height}
                 value={y}
-                disabled
                 onInput={(event) => {
                   setY(event.detail.value);
                 }}
               />
             </View>
           </View> */}
-          {/* <View className={classNames(styles.item, styles.disabled)}>
+          <View className={classNames(styles.item)}>
             <Text>自定义文字粗细</Text>
             <View className={styles.right}>
               <Picker
@@ -285,7 +283,6 @@ export default function User() {
                 value={weight}
                 rangeKey="label"
                 range={WEIGHT_OPTION}
-                disabled
                 onChange={(event) => {
                   setWeight(parseInt(event.detail.value as string));
                 }}
@@ -294,13 +291,12 @@ export default function User() {
               </Picker>
             </View>
           </View>
-          <View className={classNames(styles.item, styles.disabled)}>
+          {/* <View className={classNames(styles.item)}>
             <Text>自定义字体大小</Text>
             <View className={styles.right}>
               <Input
                 placeholder="请输入字体大小"
                 className={styles.height}
-                disabled
                 value={fontSize}
                 onInput={(event) => {
                   setFontSize(event.detail.value);
@@ -381,11 +377,11 @@ export default function User() {
           >
             保存
           </Button>
-          <View className={styles.tip}>
+          {/* <View className={styles.tip}>
             <Text>
               说明：目前只有部分可以自定义，后续会慢慢放开分更多自定义功能！
             </Text>
-          </View>
+          </View> */}
         </View>
       </View>
     </View>

@@ -94,6 +94,7 @@ export interface IIMage {
   borderColor?: string;
   zIndex?: number;
   type: string;
+  opacity?: number;
 }
 
 export interface ILine {

@@ -21,11 +21,13 @@ export const Poster: React.FC<IPoster> = (props) => {
   const [loading, setLoading] = useState(true);
   const [haveSetting, setHaveSetting] = useState(true);
 
-  const height = parseInt(data?.setting?.height || "1100");
-  const fontSize = parseInt(data?.setting?.fontSize || "26");
-  const x = parseInt(data?.setting?.x || "48");
-  const y = parseInt(data?.setting?.y || "350");
-  const weight = data?.setting?.fontWeight || 0;
+  const height = parseInt(data?.setting?.height || DEFAULT_SETTING.height);
+  const fontSize = parseInt(
+    data?.setting?.fontSize || DEFAULT_SETTING.fontSize
+  );
+  const x = parseInt(data?.setting?.x || DEFAULT_SETTING.x);
+  const y = parseInt(data?.setting?.y || DEFAULT_SETTING.y);
+  const weight = data?.setting?.fontWeight || DEFAULT_SETTING.fontWeight;
   const showWater = data?.setting?.showWater;
   const backgroundImage =
     data?.setting?.backgroundImage || DEFAULT_SETTING.backgroundImage;
@@ -100,16 +102,16 @@ export const Poster: React.FC<IPoster> = (props) => {
                 url: customBackgroundImage
                   ? backgroundImage
                   : DEFAULT_SETTING.backgroundImage,
+                opacity: 0.2,
               },
-              // {
-              //   width: 200,
-              //   height: 200,
-              //   type: "image",
-              //   borderRadius: 200,
-              //   x: 225,
-              //   y: height - 250,
-              //   url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
-              // },
+              {
+                width: 250,
+                height: 250,
+                type: "image",
+                x: 400,
+                y: 850,
+                url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
+              },
               {
                 width: 150,
                 height: 150,
@@ -119,48 +121,41 @@ export const Poster: React.FC<IPoster> = (props) => {
                 y: 140,
                 url: data?.setting?.avatarUrl as string,
               },
-              {
-                width: 80,
-                height: 80,
-                type: "image",
-                borderRadius: 80,
-                x: 485,
-                y: 935,
-                url: DEFAULT_SETTING.avatarUrl,
-                zIndex: 10001,
-              },
+              // {
+              //   width: 80,
+              //   height: 80,
+              //   type: "image",
+              //   borderRadius: 80,
+              //   x: 485,
+              //   y: 935,
+              //   url: DEFAULT_SETTING.avatarUrl,
+              //   zIndex: 10001,
+              // },
             ],
-            blocks: [
-              {
-                width: 100,
-                height: 100,
-                borderRadius: 100,
-                backgroundColor: "#fff",
-                x: 475,
-                y: 925,
-                type: "block",
-                zIndex: 10000,
-              },
-            ],
-            qrcodes: [
-              {
-                width: 250,
-                height: 250,
-                x: 400,
-                y: 850,
-                text: `昵称：${data.setting.nickname}\n时间：${dayjs(
-                  data.time
-                ).format("YYYY-MM-DD HH:mm:ss")}`,
-                type: "qrcode",
-                // image: {
-                //   width: 80,
-                //   height: 80,
-                //   round: true,
-                //   imageResource:
-                //     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/icon.png",
-                // },
-              },
-            ],
+            // blocks: [
+            //   {
+            //     width: 100,
+            //     height: 100,
+            //     borderRadius: 100,
+            //     backgroundColor: "#fff",
+            //     x: 475,
+            //     y: 925,
+            //     type: "block",
+            //     zIndex: 10000,
+            //   },
+            // ],
+            // qrcodes: [
+            //   {
+            //     width: 250,
+            //     height: 250,
+            //     x: 400,
+            //     y: 850,
+            //     text: `昵称：${data.setting.nickname}\n时间：${dayjs(
+            //       data.time
+            //     ).format("YYYY-MM-DD HH:mm:ss")}`,
+            //     type: "qrcode",
+            //   },
+            // ],
             texts: [
               {
                 text: data.content,

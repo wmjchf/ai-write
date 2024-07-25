@@ -27,6 +27,7 @@ export default function Index() {
   const [time, setTime] = useState(30);
   const timeRef = useRef<number>(30);
   const timerRef = useRef<any>();
+
   useDidShow(() => {
     // const newRecordList = Taro.getStorageSync("recordList");
 
