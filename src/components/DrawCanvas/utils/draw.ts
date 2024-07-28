@@ -152,6 +152,7 @@ export function _drawSingleText(
   const { ctx, toPx } = drawOptions;
   ctx.save();
   ctx.beginPath();
+
   ctx.font =
     fontStyle +
     " " +
@@ -341,6 +342,7 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
     borderWidth = 0,
     borderColor,
     opacity = 1,
+    blur,
   } = data;
 
   ctx.save();
@@ -377,6 +379,9 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       ctx.stroke();
     }
   } else {
+    if (blur) {
+      ctx.globalAlpha = 0.5;
+    }
     ctx.drawImage(
       imgPath,
       toPx(sx),
@@ -388,6 +393,9 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       toPx(w),
       toPx(h)
     );
+    if (blur) {
+      ctx.globalAlpha = 1;
+    }
   }
 
   ctx.restore();
@@ -674,6 +682,7 @@ function gaussianBlur(imageData, radius) {
       }
 
       const outputIndex = (y * width + x) * 4;
+      console.log(r / totalWeight, "ewreweewrew");
       blurredPixels[outputIndex] = r / totalWeight;
       blurredPixels[outputIndex + 1] = g / totalWeight;
       blurredPixels[outputIndex + 2] = b / totalWeight;

@@ -95,6 +95,7 @@ export interface IIMage {
   zIndex?: number;
   type: string;
   opacity?: number;
+  blur?: boolean;
 }
 
 export interface ILine {

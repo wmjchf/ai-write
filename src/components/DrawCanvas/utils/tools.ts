@@ -179,6 +179,7 @@ export function downloadImageAndInfo(image, index, toRpxFunc, pixelRatio) {
           w: setWidth,
           h: setHeight,
           opacity: image.opacity,
+          blur: image.blur,
         };
         resolve(result);
       })

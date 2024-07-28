@@ -103,6 +103,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                   ? backgroundImage
                   : DEFAULT_SETTING.backgroundImage,
                 opacity: 0.2,
+                blur: false,
               },
               {
                 width: 250,

@@ -94,7 +94,7 @@ export default function Index() {
         title: "识别结果",
         content: res.result,
         confirmText: "记录",
-
+        cancelText: "复制",
         success(result) {
           if (result.confirm) {
             const newData = {
@@ -109,6 +109,10 @@ export default function Index() {
 
             Taro.navigateTo({
               url: `/pages/detail/index?id=${newData.id}`,
+            });
+          } else {
+            Taro.setClipboardData({
+              data: res.result,
             });
           }
         },
