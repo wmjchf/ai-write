@@ -178,7 +178,7 @@ export function _drawSingleText(
     let fillText = "";
     let line = 1;
     for (let i = 0; i <= (text as string).length - 1; i++) {
-      if (text[i] === "\n") {
+      if (text[i] === "\n" || text[i] === "，" || text[i] === "。") {
         if (line <= lineNum) {
           textArr.push(fillText);
         }

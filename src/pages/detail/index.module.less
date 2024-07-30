@@ -8,7 +8,29 @@
     bottom: 50px;
     left: 50%;
     transform: translateX(-50%);
-    text-decoration: underline;
-    color: #ff416c;
+
+    display: flex;
+    align-items: center;
+    & > text {
+      color: #333;
+    }
+    .item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: center;
+      margin-right: 30px;
+      image {
+        width: 30px;
+        height: 30px;
+      }
+      text {
+        margin-left: 8px;
+        color: #ff416c;
+        font-size: 20px;
+        position: relative;
+        top: -1px;
+      }
+    }
   }
 }

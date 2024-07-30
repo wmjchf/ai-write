@@ -1,15 +1,16 @@
-import { View, Button, Image } from "@tarojs/components";
+import { View, Button, Image, Text } from "@tarojs/components";
 import { useRef, useState } from "react";
 import Taro, { requirePlugin, useDidShow } from "@tarojs/taro";
 import classnames from "classnames";
 import { handleAuth } from "@/utils";
+import { CustomerHeader } from "@/components/Header";
 import { useCommonStore } from "@/store";
 import { IRecord } from "@/store/common";
 import FontPng from "./image/font.png";
 import Lottie from "../../components/Lottie";
 import VoicePng from "./image/voice.png";
+import PPng from "./image/p.png";
 import "./index.less";
-import { DEFAULT_SETTING } from "@/constant/data";
 
 const plugin = requirePlugin("WechatSI");
 
@@ -37,7 +38,7 @@ export default function Index() {
     //     id: "1",
     //     time: new Date().getTime(),
     //     content:
-    //       "Web3打破数据孤岛，为AI推荐算法的未来带来了无限畅想。个性化推荐、跨平台协同、隐私保护、透明与公平、实时动态推荐和社区驱动优化等具体场景展示了Web3与AI推荐算法结合的巨大潜力。",
+    //       "与你在一起的每一刻都是我最珍贵的回忆。从我们第一次牵手的那一刻起，我就知道你是我生命中最重要的人。愿我们的未来充满幸福与欢乐，每一天都像今天这样美好。",
     //     setting: DEFAULT_SETTING,
     //   },
     // ]);
@@ -68,6 +69,7 @@ export default function Index() {
       // }, 1000);
     } else {
       const result = await handleAuth("scope.record");
+
       if (result) {
         setHaveSetting(true);
       }
@@ -93,7 +95,7 @@ export default function Index() {
       Taro.showModal({
         title: "识别结果",
         content: res.result,
-        confirmText: "记录",
+        confirmText: "分享",
         cancelText: "复制",
         success(result) {
           if (result.confirm) {
@@ -126,6 +128,23 @@ export default function Index() {
       {/* <View className="time__second">
         <Text>{time}</Text>
       </View> */}
+      <CustomerHeader
+        position="absolute"
+        background="transparent"
+        backNode={
+          <View
+            className="privary"
+            onClick={() => {
+              Taro.navigateTo({
+                url: "/pages/privacy/index",
+              });
+            }}
+          >
+            <Image src={PPng} />
+            <Text>隐私政策</Text>
+          </View>
+        }
+      ></CustomerHeader>
       <View className="description">
         <View className={classnames("lottie", start && "show")}>
           <Lottie

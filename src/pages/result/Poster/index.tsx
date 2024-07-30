@@ -1,11 +1,14 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Button, View } from "@tarojs/components";
+import { Button, View, Image, Text } from "@tarojs/components";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { IRecord, useCommonStore } from "@/store/common";
 import { DrawCanvas } from "@/components/DrawCanvas";
 import { COLOR_OPTION, DEFAULT_SETTING, WEIGHT_OPTION } from "@/constant/data";
 import { handleAuth } from "@/utils";
 import dayjs from "dayjs";
+import ContentPng from "./image/content.png";
+import StylePng from "./image/style.png";
+import SharePng from "./image/share.png";
 import styles from "./index.module.less";
 
 interface IPoster {
@@ -236,41 +239,69 @@ export const Poster: React.FC<IPoster> = (props) => {
     >
       {Drawer}
       {!loading && (
-        <Button
-          className={styles.save}
-          style={
-            {
-              // height: `calc(100vh - ${navbarHeight})`,
-            }
-          }
-          onClick={async (event) => {
-            event.stopPropagation();
-            if (haveSetting) {
-              Taro.saveImageToPhotosAlbum({
-                filePath: pathRef.current as string,
-                success(res) {
-                  onSaveSuccess && onSaveSuccess();
-                  Taro.showToast({
-                    title: "保存成功",
-                  });
-                },
-                fail(error) {
-                  console.log(error);
-                },
-              });
-            } else {
-              const result = await handleAuth(
-                "scope.writePhotosAlbum",
-                "需要保存图片到相册"
-              );
-              if (result) {
-                setHaveSetting(true);
+        <View className={styles.operation}>
+          <View
+            className={styles.save}
+            onClick={async (event) => {
+              event.stopPropagation();
+              if (haveSetting) {
+                Taro.saveImageToPhotosAlbum({
+                  filePath: pathRef.current as string,
+                  success(res) {
+                    onSaveSuccess && onSaveSuccess();
+                    Taro.showToast({
+                      title: "保存成功",
+                    });
+                  },
+                  fail(error) {
+                    console.log(error);
+                  },
+                });
+              } else {
+                const result = await handleAuth(
+                  "scope.writePhotosAlbum",
+                  "需要保存图片到相册"
+                );
+                if (result) {
+                  setHaveSetting(true);
+                }
               }
-            }
-          }}
-        >
-          保存图片到相册
-        </Button>
+            }}
+          >
+            <View className={styles.image}>
+              <Image src={SharePng} />
+            </View>
+            {/* <Text>下载分享</Text> */}
+          </View>
+          <View
+            className={styles.save}
+            onClick={async (event) => {
+              event.stopPropagation();
+              Taro.navigateTo({
+                url: `/pages/user/index?id=${data?.id}`,
+              });
+            }}
+          >
+            <View className={styles.image}>
+              <Image src={ContentPng} />
+            </View>
+            {/* <Text>自定义内容</Text> */}
+          </View>
+          <View
+            className={styles.save}
+            onClick={async (event) => {
+              event.stopPropagation();
+            }}
+            style={{
+              marginRight: 0,
+            }}
+          >
+            <View className={styles.image}>
+              <Image src={StylePng} />
+            </View>
+            {/* <Text>自定义样式</Text> */}
+          </View>
+        </View>
       )}
     </View>
   );

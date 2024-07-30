@@ -4,6 +4,7 @@ export default defineAppConfig({
     "pages/result/index",
     "pages/user/index",
     "pages/detail/index",
+    "pages/privacy/index",
   ],
   usingComponents: Object.assign({
     "color-picker": "components/ColorPicker/color-picker",
