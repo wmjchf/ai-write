@@ -328,6 +328,7 @@ export interface IDrawImageData extends IIMage {
  */
 export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
   const { ctx, toPx } = drawOptions;
+
   const {
     imgPath,
     x,
@@ -347,6 +348,7 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
 
   ctx.save();
 
+  ctx.setGlobalAlpha(opacity);
   if (borderRadius > 0) {
     let drawData = {
       x,
@@ -379,9 +381,6 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       ctx.stroke();
     }
   } else {
-    if (blur) {
-      ctx.globalAlpha = 0.5;
-    }
     ctx.drawImage(
       imgPath,
       toPx(sx),
@@ -393,9 +392,6 @@ export function drawImage(data: IDrawImageData, drawOptions: IDrawOptions) {
       toPx(w),
       toPx(h)
     );
-    if (blur) {
-      ctx.globalAlpha = 1;
-    }
   }
 
   ctx.restore();

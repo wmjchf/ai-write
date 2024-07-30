@@ -57,6 +57,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
         downloadImageAndInfo(image, index, toRpx, _pixelRatio)
           .then((result) => {
             drawArrRef.current.push(result);
+
             resolve(result);
           })
           .catch((err) => {
@@ -202,6 +203,7 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
       pxWidth,
       pxHeight,
     };
+
     queue.forEach((item) => {
       if (item.type === "image") {
         if (drawOptions.ctx !== null) {
@@ -239,6 +241,8 @@ export const DrawCanvas: React.FC<IDrawCanvas> = (props) => {
   }, [config, getTempFile, toPx, toRpx]);
 
   const onCreate = useCallback(() => {
+    drawArrRef.current = [];
+
     return downloadResourceTransit()
       .then(() => {
         onLoad && onLoad();

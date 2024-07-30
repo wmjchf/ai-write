@@ -11,6 +11,7 @@ import Lottie from "../../components/Lottie";
 import VoicePng from "./image/voice.png";
 import PPng from "./image/p.png";
 import "./index.less";
+import { DEFAULT_SETTING } from "@/constant/data";
 
 const plugin = requirePlugin("WechatSI");
 

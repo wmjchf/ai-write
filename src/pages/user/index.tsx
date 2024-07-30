@@ -22,6 +22,7 @@ import styles from "./index.module.less";
 export default function User() {
   const { setUser, user, recordList, setRecordList } = useCommonStore();
   const [avatarUrl, setAvatarUrl] = useState("");
+  const [showAvatar, setShowAvatar] = useState(DEFAULT_SETTING.showAvatar);
   const [nickname, setNickname] = useState("");
   const [height, setHeight] = useState("");
   const [fontSize, setFontSize] = useState("");
@@ -29,12 +30,14 @@ export default function User() {
   const [y, setY] = useState("");
   const [weight, setWeight] = useState(0);
   const [id, setId] = useState("");
+
   const [showWater, setShowWater] = useState(true);
   const [backgroundImage, setBackgroundImage] = useState<File[]>([]);
   const [customBackgroundImage, setCustomBackgroundImage] = useState(false);
   const [fontColor, setFontColor] = useState(0);
   const [qrcodeUrl, setQRCodeUrl] = useState<File[]>([]);
   const [customQRCodeUrl, setCustomQRCodeUrl] = useState(false);
+  const [showNick, setShowNick] = useState(DEFAULT_SETTING.showNick);
 
   useLoad((option) => {
     setId(option.id);
@@ -69,7 +72,16 @@ export default function User() {
     setY(record?.setting?.y || DEFAULT_SETTING.y);
     setWeight(record?.setting?.fontWeight || DEFAULT_SETTING.fontWeight);
     setShowWater(record?.setting?.showWater);
-
+    setShowAvatar(
+      record?.setting?.showAvatar === undefined
+        ? DEFAULT_SETTING.showAvatar
+        : record?.setting?.showAvatar
+    );
+    setShowNick(
+      record?.setting?.showNick === undefined
+        ? DEFAULT_SETTING.showNick
+        : record?.setting?.showNick
+    );
     setBackgroundImage([
       {
         url:
@@ -101,9 +113,25 @@ export default function User() {
       <CustomerHeader title="自定义分享"></CustomerHeader>
       <View className={styles.container}>
         <View className={styles.content}>
-          <View className={styles.item}>
-            <Text>头像</Text>
-            <View className={styles.right}>
+          {/* <View className={classNames(styles.item, showAvatar && styles.col)}>
+            <View className={classNames(styles.item__wrap)}>
+              <Text>头像</Text>
+              <View className={styles.right}>
+                <Switch
+                  checked={showAvatar}
+                  onChange={(event) => {
+                    setShowAvatar(event.detail.value);
+                  }}
+                ></Switch>
+              </View>
+            </View>
+            <View
+              className={classNames(
+                styles.item__content,
+                !showAvatar && styles.hidden,
+                styles.avatar
+              )}
+            >
               <Button
                 className={styles.choose__avatar}
                 openType="chooseAvatar"
@@ -114,12 +142,12 @@ export default function User() {
                 <Image src={avatarUrl || AvatarPng}></Image>
               </Button>
             </View>
-          </View>
-          <View className={styles.item}>
+          </View> */}
+          <View className={classNames(styles.item)}>
             <Text>昵称</Text>
             <View className={styles.right}>
               <Input
-                className={styles.nickname}
+                className={styles.nickname__input}
                 type="nickname"
                 placeholder="输入用户昵称"
                 value={nickname}
@@ -129,6 +157,7 @@ export default function User() {
               />
             </View>
           </View>
+
           {/* <View className={styles.item}>
             <Text>是否显示音瞬水印</Text>
             <View className={styles.right}>
@@ -326,6 +355,8 @@ export default function User() {
                     customBackgroundImage,
                     qrcodeUrl: qrcodeUrl[0]?.url || "",
                     customQRCodeUrl,
+                    showAvatar,
+                    showNick,
                   });
                 } else {
                   if (customBackgroundImage && !backgroundImage[0]?.url) {
@@ -360,6 +391,8 @@ export default function User() {
                           customBackgroundImage,
                           qrcodeUrl: qrcodeUrl[0]?.url || "",
                           customQRCodeUrl,
+                          showAvatar,
+                          showNick,
                         },
                       };
                     }

@@ -21,6 +21,18 @@
         padding: 12px 24px;
         font-size: 30px;
         font-weight: bold;
+        position: relative;
+        &::after {
+          content: "";
+          display: block;
+          position: absolute;
+          width: 93%;
+          bottom: 0;
+          left: 50%;
+          transform: translateX(-50%);
+          background-color: #eee;
+          height: 1px;
+        }
         &.col {
           flex-direction: column;
           height: auto;
@@ -40,6 +52,16 @@
           width: 100%;
           height: 338px;
           padding-top: 12px;
+          &.avatar {
+            height: 90px;
+            // display: flex;
+            // justify-content: flex-end;
+          }
+          &.nickname {
+            height: 50px;
+            // display: flex;
+            // justify-content: flex-end;
+          }
           &.hidden {
             height: 0;
             overflow: hidden;
@@ -97,6 +119,20 @@
             }
           }
         }
+        .choose__avatar {
+          width: 80px;
+          height: 80px;
+          margin: unset;
+          margin-right: 16px;
+          &::after {
+            border: none;
+          }
+          padding: 0;
+          image {
+            width: 100%;
+            height: 100%;
+          }
+        }
         .right {
           display: flex;
           align-items: center;
@@ -106,28 +142,18 @@
             border-radius: 12px;
             box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
           }
-          .choose__avatar {
-            width: 80px;
-            height: 80px;
-            margin: unset;
-            &::after {
-              border: none;
-            }
-            padding: 0;
-            image {
-              width: 100%;
-              height: 100%;
-            }
-          }
+
           .disabled {
             color: #cdcdcd;
             font-size: 30px;
             font-weight: normal;
           }
-          .nickname {
+          .nickname__input {
             text-align: right;
             font-size: 30px;
             font-weight: normal;
+            color: #333;
+            margin-right: 15px;
           }
           .height {
             font-size: 30px;

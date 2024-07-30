@@ -40,33 +40,19 @@ export const Poster: React.FC<IPoster> = (props) => {
       ? DEFAULT_SETTING.fontColor
       : data?.setting?.fontColor;
   const customBackgroundImage =
-    data?.setting?.customBackgroundImage ||
-    DEFAULT_SETTING.customBackgroundImage;
+    data?.setting?.customBackgroundImage === undefined
+      ? DEFAULT_SETTING.customBackgroundImage
+      : data?.setting?.customBackgroundImage;
   const customQRCodeUrl =
     data?.setting?.customQRCodeUrl || DEFAULT_SETTING.customQRCodeUrl;
-  // const globalDataRef = useRef<any>({});
-
-  // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
-
-  // useEffect(() => {
-  //   globalDataRef.current.systeminfo = Taro.getSystemInfoSync();
-  //   if (!globalDataRef.current.headerBtnPosi)
-  //     globalDataRef.current.headerBtnPosi =
-  //       Taro.getMenuButtonBoundingClientRect();
-  //   let newstatusBarHeight = globalDataRef.current.systeminfo.statusBarHeight; // 状态栏高度
-  //   let headerPosi = globalDataRef.current.headerBtnPosi; // 胶囊位置信息
-  //   let btnPosi = {
-  //     // 胶囊实际位置，坐标信息不是左上角原点
-  //     height: headerPosi.height,
-  //     width: headerPosi.width,
-  //     top: headerPosi.top - newstatusBarHeight, // 胶囊top - 状态栏高度
-  //     bottom: headerPosi.bottom - headerPosi.height - newstatusBarHeight, // 胶囊bottom - 胶囊height - 状态栏height （胶囊实际bottom 为距离导航栏底部的长度）
-  //     right: globalDataRef.current.systeminfo.windowWidth - headerPosi.right, // 这里不能获取 屏幕宽度，PC端打开小程序会有BUG，要获取窗口高度 - 胶囊right
-  //   };
-
-  //   const newnavbarHeight = headerPosi.bottom + btnPosi.bottom; // 胶囊bottom + 胶囊实际bottom
-  //   setnavbarHeight(newnavbarHeight);
-  // }, []);
+  const showAvatar =
+    data?.setting?.showAvatar === undefined
+      ? DEFAULT_SETTING.showAvatar
+      : data?.setting?.showAvatar;
+  const showNick =
+    data?.setting?.showNick === undefined
+      ? DEFAULT_SETTING.showNick
+      : data?.setting?.showNick;
 
   useEffect(() => {
     const sysInfo = Taro.getSystemInfoSync();
@@ -105,7 +91,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 url: customBackgroundImage
                   ? backgroundImage
                   : DEFAULT_SETTING.backgroundImage,
-                opacity: 0.2,
+
                 blur: false,
               },
               {
@@ -116,25 +102,6 @@ export const Poster: React.FC<IPoster> = (props) => {
                 y: 850,
                 url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
               },
-              {
-                width: 150,
-                height: 150,
-                type: "image",
-                borderRadius: 150,
-                x: 250,
-                y: 140,
-                url: data?.setting?.avatarUrl as string,
-              },
-              // {
-              //   width: 80,
-              //   height: 80,
-              //   type: "image",
-              //   borderRadius: 80,
-              //   x: 485,
-              //   y: 935,
-              //   url: DEFAULT_SETTING.avatarUrl,
-              //   zIndex: 10001,
-              // },
             ],
             // blocks: [
             //   {
@@ -180,9 +147,10 @@ export const Poster: React.FC<IPoster> = (props) => {
                 width: 500,
                 lineNum: 1,
                 lineHeight: 40,
+
                 x: 24,
-                y: 110,
-                fontSize: 25,
+                y: 1080,
+                fontSize: 28,
                 color: "#cdcdcd",
                 fontFamily: "Times New Roman",
               },
@@ -193,25 +161,14 @@ export const Poster: React.FC<IPoster> = (props) => {
                 lineNum: 1,
                 lineHeight: 40,
                 x: 24,
-                y: 70,
+                y: 240,
                 fontSize: 55,
-                color: "#cdcdcd",
+                color: COLOR_OPTION[fontColor].value,
+                fontWeight: "bold",
                 fontFamily: "Times New Roman",
                 // textAlign: "center",
+                opacity: showNick ? 1 : 0,
               },
-              // {
-              //   text: "音瞬官方认证",
-              //   type: "text",
-              //   width: 360,
-              //   lineNum: 1,
-              //   lineHeight: 40,
-              //   x: 410,
-              //   y: 1070,
-              //   fontSize: 35,
-              //   color: "rgba(230, 230, 230, 0.3)",
-              //   fontFamily: "Times New Roman",
-              //   opacity: showWater ? 1 : 0,
-              // },
             ],
           }}
           onCreateFail={(err) => {
@@ -227,7 +184,18 @@ export const Poster: React.FC<IPoster> = (props) => {
         ></DrawCanvas>
       );
     }
-  }, [factor, data, fontSize, height, x, y, weight, onLoad, showWater]);
+  }, [
+    factor,
+    data,
+    fontSize,
+    height,
+    x,
+    y,
+    weight,
+    onLoad,
+    showWater,
+    showAvatar,
+  ]);
 
   return (
     <View

@@ -17,6 +17,8 @@ export interface IRecord {
 
 export interface User {
   nickname: string;
+  showAvatar: boolean;
+  showNick: boolean;
   avatarUrl: string;
   height: string;
   fontSize: string;
