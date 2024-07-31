@@ -41,6 +41,8 @@ export const Poster: React.FC<IPoster> = (props) => {
     DEFAULT_SETTING.customBackgroundImage;
   const customQRCodeUrl =
     data?.setting?.customQRCodeUrl || DEFAULT_SETTING.customQRCodeUrl;
+
+  const typesetting = data?.setting?.typesetting || DEFAULT_SETTING.typesetting;
   // const globalDataRef = useRef<any>({});
 
   // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
@@ -98,7 +100,7 @@ export const Poster: React.FC<IPoster> = (props) => {
                 type: "image",
                 x: 0,
                 y: 0,
-                // borderRadius: 32,
+
                 url: customBackgroundImage
                   ? backgroundImage
                   : DEFAULT_SETTING.backgroundImage,
@@ -113,16 +115,16 @@ export const Poster: React.FC<IPoster> = (props) => {
                 y: 850,
                 url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
               },
-              {
-                width: 150,
-                height: 150,
-                type: "image",
-                borderRadius: 150,
-                x: 250,
-                y: 140,
-                url: data?.setting?.avatarUrl as string,
-              },
               // {
+              //   width: 150,
+              //   height: 150,
+              //   type: "image",
+              //   borderRadius: 150,
+              //   x: 250,
+              //   y: 140,
+              //   url: data?.setting?.avatarUrl as string,
+              // },
+              // // {
               //   width: 80,
               //   height: 80,
               //   type: "image",
@@ -162,14 +164,15 @@ export const Poster: React.FC<IPoster> = (props) => {
                 text: data.content,
                 type: "text",
                 width: 520,
-                lineNum: 20,
-                lineHeight: 45,
+                lineNum: 25,
+                lineHeight: 50,
                 x,
                 y,
                 fontSize,
                 color: COLOR_OPTION[fontColor].value,
                 fontFamily: "Times New Roman",
                 fontWeight: WEIGHT_OPTION[weight].value,
+                typesetting,
               },
               {
                 text: dayjs(data.time).format("YYYY-MM-DD HH:mm:ss"),

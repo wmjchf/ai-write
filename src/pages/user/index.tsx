@@ -11,12 +11,17 @@ import Taro, { useLoad } from "@tarojs/taro";
 import { AtImagePicker } from "taro-ui";
 import classNames from "classnames";
 import { File } from "taro-ui/types/image-picker";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useCommonStore } from "@/store";
 import { IRecord } from "@/store/common";
 import { CustomerHeader } from "@/components/Header";
-import { COLOR_OPTION, DEFAULT_SETTING, WEIGHT_OPTION } from "@/constant/data";
-import AvatarPng from "./image/avatar.png";
+import {
+  COLOR_OPTION,
+  DEFAULT_SETTING,
+  TYPESETTING_OPTION,
+  WEIGHT_OPTION,
+} from "@/constant/data";
+import RightPng from "./image/right.png";
 import styles from "./index.module.less";
 
 export default function User() {
@@ -29,6 +34,7 @@ export default function User() {
   const [x, setX] = useState("");
   const [y, setY] = useState("");
   const [weight, setWeight] = useState(0);
+  const [typesetting, setTypesetting] = useState(0);
   const [id, setId] = useState("");
 
   const [showWater, setShowWater] = useState(true);
@@ -71,6 +77,7 @@ export default function User() {
     setX(record?.setting?.x || DEFAULT_SETTING.x);
     setY(record?.setting?.y || DEFAULT_SETTING.y);
     setWeight(record?.setting?.fontWeight || DEFAULT_SETTING.fontWeight);
+    setTypesetting(record?.setting?.typesetting || DEFAULT_SETTING.typesetting);
     setShowWater(record?.setting?.showWater);
     setShowAvatar(
       record?.setting?.showAvatar === undefined
@@ -155,6 +162,7 @@ export default function User() {
                   setNickname(event.detail.value);
                 }}
               />
+              <Image src={RightPng} className={styles.rightIcon} />
             </View>
           </View>
 
@@ -218,6 +226,13 @@ export default function User() {
               >
                 {COLOR_OPTION[fontColor]?.label || "请选择"}
               </Picker>
+              <Image
+                src={RightPng}
+                className={classNames(
+                  styles.rightIcon,
+                  styles.right__icon__picker
+                )}
+              />
             </View>
           </View>
           {/* <View
@@ -318,6 +333,13 @@ export default function User() {
               >
                 {WEIGHT_OPTION[weight]?.label || "请选择"}
               </Picker>
+              <Image
+                src={RightPng}
+                className={classNames(
+                  styles.rightIcon,
+                  styles.right__icon__picker
+                )}
+              />
             </View>
           </View>
           {/* <View className={classNames(styles.item)}>
@@ -333,6 +355,29 @@ export default function User() {
               />
             </View>
           </View> */}
+          <View className={classNames(styles.item)}>
+            <Text>文字排版</Text>
+            <View className={styles.right}>
+              <Picker
+                className={styles.height}
+                value={typesetting}
+                rangeKey="label"
+                range={TYPESETTING_OPTION}
+                onChange={(event) => {
+                  setTypesetting(parseInt(event.detail.value as string));
+                }}
+              >
+                {TYPESETTING_OPTION[typesetting]?.label || "请选择"}
+              </Picker>
+              <Image
+                src={RightPng}
+                className={classNames(
+                  styles.rightIcon,
+                  styles.right__icon__picker
+                )}
+              />
+            </View>
+          </View>
         </View>
         <View className={styles.btn}>
           <Button
@@ -357,6 +402,7 @@ export default function User() {
                     customQRCodeUrl,
                     showAvatar,
                     showNick,
+                    typesetting,
                   });
                 } else {
                   if (customBackgroundImage && !backgroundImage[0]?.url) {
@@ -393,6 +439,7 @@ export default function User() {
                           customQRCodeUrl,
                           showAvatar,
                           showNick,
+                          typesetting,
                         },
                       };
                     }

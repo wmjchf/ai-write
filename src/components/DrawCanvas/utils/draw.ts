@@ -148,6 +148,7 @@ export function _drawSingleText(
     fontWeight = "normal",
     fontStyle = "normal",
     fontFamily = "sans-serif",
+    typesetting = 0,
   } = drawData;
   const { ctx, toPx } = drawOptions;
   ctx.save();
@@ -178,7 +179,10 @@ export function _drawSingleText(
     let fillText = "";
     let line = 1;
     for (let i = 0; i <= (text as string).length - 1; i++) {
-      if (text[i] === "\n" || text[i] === "，" || text[i] === "。") {
+      if (
+        text[i] === "\n" ||
+        (typesetting === 0 && (text[i] === "，" || text[i] === "。"))
+      ) {
         if (line <= lineNum) {
           textArr.push(fillText);
         }

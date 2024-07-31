@@ -11,6 +11,7 @@
     .content {
       background-color: #fff;
       border-radius: 24px;
+      padding-bottom: 12px;
       .item {
         width: 100%;
         display: flex;
@@ -22,17 +23,18 @@
         font-size: 30px;
         font-weight: bold;
         position: relative;
-        &::after {
-          content: "";
-          display: block;
-          position: absolute;
-          width: 93%;
-          bottom: 0;
-          left: 50%;
-          transform: translateX(-50%);
-          background-color: #eee;
-          height: 1px;
-        }
+        color: #353535;
+        // &::after {
+        //   content: "";
+        //   display: block;
+        //   position: absolute;
+        //   width: 93%;
+        //   bottom: 0;
+        //   left: 50%;
+        //   transform: translateX(-50%);
+        //   background-color: #eee;
+        //   height: 1px;
+        // }
         &.col {
           flex-direction: column;
           height: auto;
@@ -119,6 +121,25 @@
             }
           }
         }
+        .item__content__font__col {
+          display: flex;
+          width: 100%;
+          // height: 35px;
+          padding: 24px 0;
+          .font__col {
+            width: 200px;
+            height: 100%;
+            margin-right: 32px;
+            border: solid 1px #eee;
+            border-radius: 24px;
+            overflow: hidden;
+            image {
+              width: 100%;
+              height: 100%;
+              border-radius: 24px;
+            }
+          }
+        }
         .choose__avatar {
           width: 80px;
           height: 80px;
@@ -136,6 +157,14 @@
         .right {
           display: flex;
           align-items: center;
+          .rightIcon {
+            width: 35px;
+            height: 35px;
+            position: relative;
+            &.right__icon__picker {
+              margin-left: 8px;
+            }
+          }
           .color__block {
             width: 80px;
             height: 80px;
@@ -152,13 +181,14 @@
             text-align: right;
             font-size: 30px;
             font-weight: normal;
-            color: #333;
+            color: #888888;
             margin-right: 15px;
           }
           .height {
             font-size: 30px;
             text-align: right;
             font-weight: normal;
+            color: #888888;
           }
         }
       }

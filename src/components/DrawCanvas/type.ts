@@ -81,6 +81,7 @@ export interface IText {
   fontWeight?: string;
   fontStyle?: string;
   zIndex?: number;
+  typesetting?: number;
 }
 
 export interface IIMage {

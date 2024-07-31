@@ -11,6 +11,19 @@ export const WEIGHT_OPTION = [
   },
 ];
 
+export const TYPESETTING_OPTION = [
+  {
+    id: 0,
+    value: "0",
+    label: "无标点",
+  },
+  {
+    id: 1,
+    value: "1",
+    label: "有标点",
+  },
+];
+
 export const COLOR_OPTION = [
   { id: 0, value: "#fff", label: "白色" },
   { id: 1, value: "#000", label: "黑色" },
@@ -25,8 +38,9 @@ export const DEFAULT_SETTING = {
   height: "1100",
   fontSize: "26",
   x: "24",
-  y: "350",
+  y: "200",
   fontWeight: 0,
+  typesetting: 0,
   showWater: true,
   backgroundImage:
     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/canvas_1.png",
