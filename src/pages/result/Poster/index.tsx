@@ -1,14 +1,11 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Button, View, Image, Text } from "@tarojs/components";
+import { Button, View } from "@tarojs/components";
 import Taro, { useDidShow } from "@tarojs/taro";
 import { IRecord, useCommonStore } from "@/store/common";
 import { DrawCanvas } from "@/components/DrawCanvas";
 import { COLOR_OPTION, DEFAULT_SETTING, WEIGHT_OPTION } from "@/constant/data";
 import { handleAuth } from "@/utils";
 import dayjs from "dayjs";
-import ContentPng from "./image/content.png";
-import StylePng from "./image/style.png";
-import SharePng from "./image/share.png";
 import styles from "./index.module.less";
 
 interface IPoster {
@@ -40,19 +37,33 @@ export const Poster: React.FC<IPoster> = (props) => {
       ? DEFAULT_SETTING.fontColor
       : data?.setting?.fontColor;
   const customBackgroundImage =
-    data?.setting?.customBackgroundImage === undefined
-      ? DEFAULT_SETTING.customBackgroundImage
-      : data?.setting?.customBackgroundImage;
+    data?.setting?.customBackgroundImage ||
+    DEFAULT_SETTING.customBackgroundImage;
   const customQRCodeUrl =
     data?.setting?.customQRCodeUrl || DEFAULT_SETTING.customQRCodeUrl;
-  const showAvatar =
-    data?.setting?.showAvatar === undefined
-      ? DEFAULT_SETTING.showAvatar
-      : data?.setting?.showAvatar;
-  const showNick =
-    data?.setting?.showNick === undefined
-      ? DEFAULT_SETTING.showNick
-      : data?.setting?.showNick;
+  // const globalDataRef = useRef<any>({});
+
+  // const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
+
+  // useEffect(() => {
+  //   globalDataRef.current.systeminfo = Taro.getSystemInfoSync();
+  //   if (!globalDataRef.current.headerBtnPosi)
+  //     globalDataRef.current.headerBtnPosi =
+  //       Taro.getMenuButtonBoundingClientRect();
+  //   let newstatusBarHeight = globalDataRef.current.systeminfo.statusBarHeight; // 状态栏高度
+  //   let headerPosi = globalDataRef.current.headerBtnPosi; // 胶囊位置信息
+  //   let btnPosi = {
+  //     // 胶囊实际位置，坐标信息不是左上角原点
+  //     height: headerPosi.height,
+  //     width: headerPosi.width,
+  //     top: headerPosi.top - newstatusBarHeight, // 胶囊top - 状态栏高度
+  //     bottom: headerPosi.bottom - headerPosi.height - newstatusBarHeight, // 胶囊bottom - 胶囊height - 状态栏height （胶囊实际bottom 为距离导航栏底部的长度）
+  //     right: globalDataRef.current.systeminfo.windowWidth - headerPosi.right, // 这里不能获取 屏幕宽度，PC端打开小程序会有BUG，要获取窗口高度 - 胶囊right
+  //   };
+
+  //   const newnavbarHeight = headerPosi.bottom + btnPosi.bottom; // 胶囊bottom + 胶囊实际bottom
+  //   setnavbarHeight(newnavbarHeight);
+  // }, []);
 
   useEffect(() => {
     const sysInfo = Taro.getSystemInfoSync();
@@ -102,6 +113,25 @@ export const Poster: React.FC<IPoster> = (props) => {
                 y: 850,
                 url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
               },
+              {
+                width: 150,
+                height: 150,
+                type: "image",
+                borderRadius: 150,
+                x: 250,
+                y: 140,
+                url: data?.setting?.avatarUrl as string,
+              },
+              // {
+              //   width: 80,
+              //   height: 80,
+              //   type: "image",
+              //   borderRadius: 80,
+              //   x: 485,
+              //   y: 935,
+              //   url: DEFAULT_SETTING.avatarUrl,
+              //   zIndex: 10001,
+              // },
             ],
             // blocks: [
             //   {
@@ -147,10 +177,9 @@ export const Poster: React.FC<IPoster> = (props) => {
                 width: 500,
                 lineNum: 1,
                 lineHeight: 40,
-
                 x: 24,
-                y: 1080,
-                fontSize: 28,
+                y: 110,
+                fontSize: 25,
                 color: "#cdcdcd",
                 fontFamily: "Times New Roman",
               },
@@ -161,14 +190,25 @@ export const Poster: React.FC<IPoster> = (props) => {
                 lineNum: 1,
                 lineHeight: 40,
                 x: 24,
-                y: 240,
+                y: 70,
                 fontSize: 55,
-                color: COLOR_OPTION[fontColor].value,
-                fontWeight: "bold",
+                color: "#cdcdcd",
                 fontFamily: "Times New Roman",
                 // textAlign: "center",
-                opacity: showNick ? 1 : 0,
               },
+              // {
+              //   text: "音瞬官方认证",
+              //   type: "text",
+              //   width: 360,
+              //   lineNum: 1,
+              //   lineHeight: 40,
+              //   x: 410,
+              //   y: 1070,
+              //   fontSize: 35,
+              //   color: "rgba(230, 230, 230, 0.3)",
+              //   fontFamily: "Times New Roman",
+              //   opacity: showWater ? 1 : 0,
+              // },
             ],
           }}
           onCreateFail={(err) => {
@@ -184,18 +224,7 @@ export const Poster: React.FC<IPoster> = (props) => {
         ></DrawCanvas>
       );
     }
-  }, [
-    factor,
-    data,
-    fontSize,
-    height,
-    x,
-    y,
-    weight,
-    onLoad,
-    showWater,
-    showAvatar,
-  ]);
+  }, [factor, data, fontSize, height, x, y, weight, onLoad, showWater]);
 
   return (
     <View
@@ -207,69 +236,41 @@ export const Poster: React.FC<IPoster> = (props) => {
     >
       {Drawer}
       {!loading && (
-        <View className={styles.operation}>
-          <View
-            className={styles.save}
-            onClick={async (event) => {
-              event.stopPropagation();
-              if (haveSetting) {
-                Taro.saveImageToPhotosAlbum({
-                  filePath: pathRef.current as string,
-                  success(res) {
-                    onSaveSuccess && onSaveSuccess();
-                    Taro.showToast({
-                      title: "保存成功",
-                    });
-                  },
-                  fail(error) {
-                    console.log(error);
-                  },
-                });
-              } else {
-                const result = await handleAuth(
-                  "scope.writePhotosAlbum",
-                  "需要保存图片到相册"
-                );
-                if (result) {
-                  setHaveSetting(true);
-                }
-              }
-            }}
-          >
-            <View className={styles.image}>
-              <Image src={SharePng} />
-            </View>
-            {/* <Text>下载分享</Text> */}
-          </View>
-          <View
-            className={styles.save}
-            onClick={async (event) => {
-              event.stopPropagation();
-              Taro.navigateTo({
-                url: `/pages/user/index?id=${data?.id}`,
+        <Button
+          className={styles.save}
+          style={
+            {
+              // height: `calc(100vh - ${navbarHeight})`,
+            }
+          }
+          onClick={async (event) => {
+            event.stopPropagation();
+            if (haveSetting) {
+              Taro.saveImageToPhotosAlbum({
+                filePath: pathRef.current as string,
+                success(res) {
+                  onSaveSuccess && onSaveSuccess();
+                  Taro.showToast({
+                    title: "保存成功",
+                  });
+                },
+                fail(error) {
+                  console.log(error);
+                },
               });
-            }}
-          >
-            <View className={styles.image}>
-              <Image src={ContentPng} />
-            </View>
-            {/* <Text>自定义内容</Text> */}
-          </View>
-          <View
-            className={styles.save}
-            onClick={async (event) => {
-              event.stopPropagation();
-            }}
-            style={{
-              marginRight: 0,
-            }}
-          >
-            <View className={styles.image}>
-              <Image src={StylePng} />
-            </View>
-            {/* <Text>自定义样式</Text> */}
-          </View>
-        </View>
+            } else {
+              const result = await handleAuth(
+                "scope.writePhotosAlbum",
+                "需要保存图片到相册"
+              );
+              if (result) {
+                setHaveSetting(true);
+              }
+            }
+          }}
+        >
+          保存图片到相册
+        </Button>
       )}
     </View>
   );
