@@ -44,7 +44,7 @@ export default function User() {
   const [qrcodeUrl, setQRCodeUrl] = useState<File[]>([]);
   const [customQRCodeUrl, setCustomQRCodeUrl] = useState(false);
   const [showNick, setShowNick] = useState(DEFAULT_SETTING.showNick);
-
+  const [content, setContent] = useState("");
   useLoad((option) => {
     setId(option.id);
   });
@@ -79,6 +79,7 @@ export default function User() {
     setWeight(record?.setting?.fontWeight || DEFAULT_SETTING.fontWeight);
     setTypesetting(record?.setting?.typesetting || DEFAULT_SETTING.typesetting);
     setShowWater(record?.setting?.showWater);
+    setContent(record?.content);
     setShowAvatar(
       record?.setting?.showAvatar === undefined
         ? DEFAULT_SETTING.showAvatar
@@ -162,6 +163,15 @@ export default function User() {
                   setNickname(event.detail.value);
                 }}
               />
+              <Image src={RightPng} className={styles.rightIcon} />
+            </View>
+          </View>
+          <View className={classNames(styles.item)}>
+            <Text>内容</Text>
+            <View className={styles.right}>
+              <Text className={styles.content__input}>
+                {content || "输入文字内容"}
+              </Text>
               <Image src={RightPng} className={styles.rightIcon} />
             </View>
           </View>

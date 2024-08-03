@@ -39,7 +39,7 @@ export default function Index() {
     //     id: "1",
     //     time: new Date().getTime(),
     //     content:
-    //       "与你在一起的每一刻都是我最珍贵的回忆。从我们第一次牵手的那一刻起，我就知道你是我生命中最重要的人。愿我们的未来充满幸福与欢乐，每一天都像今天这样美好。",
+    //       "PEPE币是一种基于互联网迷因（meme）文化的加密货币，它以“Pepe the Frog”这一经典的互联网表情为灵感，PEPE币试图通过区块链技术为这一文化符号赋予新的意义，并且PEPE代币喊出了“让 Memecoins 再次伟大”的口号。",
     //     setting: DEFAULT_SETTING,
     //   },
     // ]);

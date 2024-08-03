@@ -151,6 +151,7 @@ export function _drawSingleText(
     typesetting = 0,
   } = drawData;
   const { ctx, toPx } = drawOptions;
+
   ctx.save();
   ctx.beginPath();
 
