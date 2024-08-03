@@ -34,15 +34,15 @@ export default function Index() {
     // const newRecordList = Taro.getStorageSync("recordList");
 
     // setRecordList(newRecordList || []);
-    // Taro.setStorageSync("recordList", [
-    //   {
-    //     id: "1",
-    //     time: new Date().getTime(),
-    //     content:
-    //       "PEPE币是一种基于互联网迷因（meme）文化的加密货币，它以“Pepe the Frog”这一经典的互联网表情为灵感，PEPE币试图通过区块链技术为这一文化符号赋予新的意义，并且PEPE代币喊出了“让 Memecoins 再次伟大”的口号。",
-    //     setting: DEFAULT_SETTING,
-    //   },
-    // ]);
+    Taro.setStorageSync("recordList", [
+      {
+        id: "1",
+        time: new Date().getTime(),
+        content:
+          "PEPE币是一种基于互联网迷因（meme）文化的加密货币，它以“Pepe the Frog”这一经典的互联网表情为灵感，PEPE币试图通过区块链技术为这一文化符号赋予新的意义，并且PEPE代币喊出了“让 Memecoins 再次伟大”的口号。",
+        setting: DEFAULT_SETTING,
+      },
+    ]);
 
     initRecord();
     Taro.getSetting({
@@ -150,7 +150,7 @@ export default function Index() {
         <View className={classnames("lottie", start && "show")}>
           <Lottie
             path="https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/wave.json"
-            loop={true}
+            loop
             autoplay
             elementId="bgElement"
             // animationData={lottieJson}

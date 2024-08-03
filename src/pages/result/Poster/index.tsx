@@ -113,7 +113,8 @@ export const Poster: React.FC<IPoster> = (props) => {
                 type: "image",
                 x: 400,
                 y: 850,
-                url: customQRCodeUrl ? qrcodeUrl : DEFAULT_SETTING.qrcodeUrl,
+                url: qrcodeUrl || DEFAULT_SETTING.qrcodeUrl,
+                opacity:customQRCodeUrl?1:0
               },
               // {
               //   width: 150,

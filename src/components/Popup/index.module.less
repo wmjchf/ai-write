@@ -1,0 +1,39 @@
+.popup {
+  position: absolute;
+  top:0;
+  left:0;
+  width: 100vw;
+  height: 100vh;
+  .popup__mask{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+  .popup__body {
+    position: absolute;
+    bottom: 0;
+    left:0;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 24px 24px 0 0;
+    .popup__body__title {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px 0;
+      text {
+        font-weight: 700;
+        font-size: 32px;
+      }
+    }
+    .popup__body__content {
+      font-size: 30px;
+      padding: 0 36px;
+      padding-bottom: 48px;
+    }
+  }
+}
+

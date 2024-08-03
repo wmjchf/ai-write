@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
-import { AtImagePicker } from "taro-ui";
+import { AtDrawer, AtImagePicker,AtTextarea  } from "taro-ui";
 import classNames from "classnames";
 import { File } from "taro-ui/types/image-picker";
 import { useEffect, useState } from "react";
@@ -21,6 +21,7 @@ import {
   TYPESETTING_OPTION,
   WEIGHT_OPTION,
 } from "@/constant/data";
+import { Popup } from "@/components/Popup";
 import RightPng from "./image/right.png";
 import styles from "./index.module.less";
 
@@ -45,6 +46,7 @@ export default function User() {
   const [customQRCodeUrl, setCustomQRCodeUrl] = useState(false);
   const [showNick, setShowNick] = useState(DEFAULT_SETTING.showNick);
   const [content, setContent] = useState("");
+  const [contentOpen,setcContentOpen] = useState(false)
   useLoad((option) => {
     setId(option.id);
   });
@@ -168,9 +170,12 @@ export default function User() {
           </View>
           <View className={classNames(styles.item)}>
             <Text>内容</Text>
-            <View className={styles.right}>
+            <View className={styles.right} onClick={()=>{
+              setcContentOpen(true)
+            }}
+            >
               <Text className={styles.content__input}>
-                {content || "输入文字内容"}
+                {content.split("\n").join("") || "输入文字内容"}
               </Text>
               <Image src={RightPng} className={styles.rightIcon} />
             </View>
@@ -245,19 +250,17 @@ export default function User() {
               />
             </View>
           </View>
-          {/* <View
+          <View
             className={classNames(
               styles.item,
-              styles.disabled,
               customQRCodeUrl && styles.col
             )}
           >
             <View className={classNames(styles.item__wrap)}>
-              <Text>自定义二维码</Text>
+              <Text>是否显示二维码</Text>
               <View className={styles.right}>
                 <Switch
                   checked={customQRCodeUrl}
-                  disabled
                   onChange={(event) => {
                     setCustomQRCodeUrl(event.detail.value);
                   }}
@@ -282,7 +285,7 @@ export default function User() {
                 length={1}
               />
             </View>
-          </View> */}
+          </View>
 
           {/* <View className={classNames(styles.item, styles.disabled)}>
             <Text>是否自定义二维码</Text>
@@ -424,7 +427,7 @@ export default function User() {
                   }
                   if (customQRCodeUrl && !qrcodeUrl[0]?.url) {
                     Taro.showToast({
-                      title: "请二维码图片",
+                      title: "请上传二维码",
                       icon: "error",
                     });
                     return;
@@ -433,6 +436,7 @@ export default function User() {
                     if (item.id === id) {
                       return {
                         ...item,
+                        content,
                         setting: {
                           nickname,
                           avatarUrl,
@@ -474,6 +478,25 @@ export default function User() {
           </View> */}
         </View>
       </View>
+      <AtDrawer show={contentOpen} width="100vw" right>
+        <CustomerHeader title="自定义内容" onBack={()=>{
+          setcContentOpen(false)
+        }}
+        ></CustomerHeader>
+        <View className={styles.drawer}>
+        <AtTextarea
+          value={content}
+          className={styles.content__textarea}
+          onChange={(v)=>{
+              setContent(v)
+          }}
+          fixed
+          height={700}
+          maxLength={300}
+          placeholder="输入你想要显示的内容"
+        />
+        </View>
+      </AtDrawer>
     </View>
   );
 }

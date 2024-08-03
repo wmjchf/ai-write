@@ -27,13 +27,15 @@ interface CustomerHeaderProps {
    * 背景
    * */
   background?: string;
+
+  onBack?:()=>void
 }
 
 export const CustomerHeader: React.FC<CustomerHeaderProps> = (
   props: CustomerHeaderProps
 ) => {
   const globalData: any = {};
-  const { backNode, title, position = "relative", background = "#fff" } = props;
+  const { backNode, title, position = "relative", background = "#fff",onBack } = props;
 
   const [navbarHeight, setnavbarHeight] = useState<number>(0); // 顶部导航栏高度
   const [cusnavH, setcusnavH] = useState<number>(0);
@@ -79,7 +81,14 @@ export const CustomerHeader: React.FC<CustomerHeaderProps> = (
             {backNode ? (
               backNode
             ) : (
-              <Image className="icon" src={BackPng} onClick={back} />
+              <Image className="icon" src={BackPng} onClick={()=>{
+                if(onBack){
+                  onBack()
+                }else{
+                  back();
+                }
+              }}
+              />
             )}
             <View className="title">{title}</View>
           </View>
