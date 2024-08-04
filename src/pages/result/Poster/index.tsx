@@ -107,15 +107,15 @@ export const Poster: React.FC<IPoster> = (props) => {
 
                 blur: false,
               },
-              {
-                width: 250,
-                height: 250,
-                type: "image",
-                x: 400,
-                y: 850,
-                url: qrcodeUrl || DEFAULT_SETTING.qrcodeUrl,
-                opacity:customQRCodeUrl?1:0
-              },
+              // {
+              //   width: 120,
+              //   height: 120,
+              //   type: "image",
+              //   x: 530,
+              //   y: 0,
+              //   url: qrcodeUrl || DEFAULT_SETTING.qrcodeUrl,
+              //   opacity: customQRCodeUrl ? 1 : 0,
+              // },
               // {
               //   width: 150,
               //   height: 150,
@@ -125,16 +125,17 @@ export const Poster: React.FC<IPoster> = (props) => {
               //   y: 140,
               //   url: data?.setting?.avatarUrl as string,
               // },
-              // // {
-              //   width: 80,
-              //   height: 80,
-              //   type: "image",
-              //   borderRadius: 80,
-              //   x: 485,
-              //   y: 935,
-              //   url: DEFAULT_SETTING.avatarUrl,
-              //   zIndex: 10001,
-              // },
+              {
+                width: 150,
+                height: 150,
+                type: "image",
+                borderRadius: 150,
+                x: 250,
+                y: 900,
+                url: DEFAULT_SETTING.miniQrcodeUrl,
+                zIndex: 10001,
+                opacity: customQRCodeUrl ? 1 : 0,
+              },
             ],
             // blocks: [
             //   {
@@ -164,7 +165,7 @@ export const Poster: React.FC<IPoster> = (props) => {
               {
                 text: data.content,
                 type: "text",
-                width: 520,
+                width: 595,
                 lineNum: 25,
                 lineHeight: 50,
                 x,

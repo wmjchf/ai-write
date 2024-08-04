@@ -8,7 +8,7 @@ import {
   Switch,
 } from "@tarojs/components";
 import Taro, { useLoad } from "@tarojs/taro";
-import { AtDrawer, AtImagePicker,AtTextarea  } from "taro-ui";
+import { AtDrawer, AtImagePicker, AtTextarea } from "taro-ui";
 import classNames from "classnames";
 import { File } from "taro-ui/types/image-picker";
 import { useEffect, useState } from "react";
@@ -46,7 +46,8 @@ export default function User() {
   const [customQRCodeUrl, setCustomQRCodeUrl] = useState(false);
   const [showNick, setShowNick] = useState(DEFAULT_SETTING.showNick);
   const [content, setContent] = useState("");
-  const [contentOpen,setcContentOpen] = useState(false)
+  const [actualContent, setActualContent] = useState("");
+  const [contentOpen, setcContentOpen] = useState(false);
   useLoad((option) => {
     setId(option.id);
   });
@@ -170,9 +171,12 @@ export default function User() {
           </View>
           <View className={classNames(styles.item)}>
             <Text>内容</Text>
-            <View className={styles.right} onClick={()=>{
-              setcContentOpen(true)
-            }}
+            <View
+              className={styles.right}
+              onClick={() => {
+                setcContentOpen(true);
+                setActualContent(content);
+              }}
             >
               <Text className={styles.content__input}>
                 {content.split("\n").join("") || "输入文字内容"}
@@ -192,41 +196,7 @@ export default function User() {
               ></Switch>
             </View>
           </View> */}
-          <View
-            className={classNames(
-              styles.item,
-              customBackgroundImage && styles.col
-            )}
-          >
-            <View className={classNames(styles.item__wrap)}>
-              <Text>自定义背景</Text>
-              <View className={styles.right}>
-                <Switch
-                  checked={customBackgroundImage}
-                  onChange={(event) => {
-                    setCustomBackgroundImage(event.detail.value);
-                  }}
-                ></Switch>
-              </View>
-            </View>
-            <View
-              className={classNames(
-                styles.item__content,
-                !customBackgroundImage && styles.hidden
-              )}
-            >
-              <AtImagePicker
-                files={backgroundImage}
-                count={1}
-                multiple={false}
-                showAddBtn={backgroundImage.length !== 1}
-                onChange={(event) => {
-                  setBackgroundImage(event);
-                }}
-                length={1}
-              />
-            </View>
-          </View>
+
           <View className={classNames(styles.item)}>
             <Text>自定义文字颜色</Text>
             <View className={styles.right}>
@@ -250,11 +220,8 @@ export default function User() {
               />
             </View>
           </View>
-          <View
-            className={classNames(
-              styles.item,
-              customQRCodeUrl && styles.col
-            )}
+          {/* <View
+            className={classNames(styles.item, customQRCodeUrl && styles.col)}
           >
             <View className={classNames(styles.item__wrap)}>
               <Text>是否显示二维码</Text>
@@ -285,7 +252,7 @@ export default function User() {
                 length={1}
               />
             </View>
-          </View>
+          </View> */}
 
           {/* <View className={classNames(styles.item, styles.disabled)}>
             <Text>是否自定义二维码</Text>
@@ -355,6 +322,56 @@ export default function User() {
               />
             </View>
           </View>
+          <View
+            className={classNames(
+              styles.item,
+              customBackgroundImage && styles.col
+            )}
+          >
+            <View className={classNames(styles.item__wrap)}>
+              <Text>自定义背景</Text>
+              <View className={styles.right}>
+                <Switch
+                  checked={customBackgroundImage}
+                  onChange={(event) => {
+                    setCustomBackgroundImage(event.detail.value);
+                  }}
+                ></Switch>
+              </View>
+            </View>
+            <View
+              className={classNames(
+                styles.item__content,
+                !customBackgroundImage && styles.hidden
+              )}
+            >
+              <AtImagePicker
+                files={backgroundImage}
+                count={1}
+                multiple={false}
+                showAddBtn={backgroundImage.length !== 1}
+                onChange={(event) => {
+                  setBackgroundImage(event);
+                }}
+                length={1}
+              />
+            </View>
+          </View>
+          <View
+            className={classNames(styles.item, customQRCodeUrl && styles.col)}
+          >
+            <View className={classNames(styles.item__wrap)}>
+              <Text>是否显示二维码</Text>
+              <View className={styles.right}>
+                <Switch
+                  checked={customQRCodeUrl}
+                  onChange={(event) => {
+                    setCustomQRCodeUrl(event.detail.value);
+                  }}
+                ></Switch>
+              </View>
+            </View>
+          </View>
           {/* <View className={classNames(styles.item)}>
             <Text>自定义字体大小</Text>
             <View className={styles.right}>
@@ -368,7 +385,7 @@ export default function User() {
               />
             </View>
           </View> */}
-          <View className={classNames(styles.item)}>
+          {/* <View className={classNames(styles.item)}>
             <Text>文字排版</Text>
             <View className={styles.right}>
               <Picker
@@ -390,7 +407,7 @@ export default function User() {
                 )}
               />
             </View>
-          </View>
+          </View> */}
         </View>
         <View className={styles.btn}>
           <Button
@@ -479,23 +496,34 @@ export default function User() {
         </View>
       </View>
       <AtDrawer show={contentOpen} width="100vw" right>
-        <CustomerHeader title="自定义内容" onBack={()=>{
-          setcContentOpen(false)
-        }}
+        <CustomerHeader
+          title="自定义内容"
+          onBack={() => {
+            setcContentOpen(false);
+            setActualContent(content);
+          }}
         ></CustomerHeader>
         <View className={styles.drawer}>
-        <AtTextarea
-          value={content}
-          className={styles.content__textarea}
-          onChange={(v)=>{
-              setContent(v)
-          }}
-          fixed
-          height={700}
-          maxLength={300}
-          placeholder="输入你想要显示的内容"
-        />
+          <AtTextarea
+            value={actualContent}
+            onChange={(v) => {
+              setActualContent(v);
+            }}
+            fixed
+            height={700}
+            maxLength={300}
+            placeholder="输入你想要显示的内容"
+          />
         </View>
+        <Button
+          className={styles.confirm}
+          onClick={async () => {
+            setContent(actualContent);
+            setcContentOpen(false);
+          }}
+        >
+          确定
+        </Button>
       </AtDrawer>
     </View>
   );

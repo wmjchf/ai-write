@@ -40,7 +40,7 @@ export const DEFAULT_SETTING = {
   x: "24",
   y: "200",
   fontWeight: 0,
-  typesetting: 0,
+  typesetting: 1,
   showWater: true,
   backgroundImage:
     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/canvas_1.png",
@@ -49,4 +49,6 @@ export const DEFAULT_SETTING = {
   customQRCodeUrl: false,
   qrcodeUrl:
     "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/qrcode.jpg",
+  miniQrcodeUrl:
+    "https://static-mp-40374afd-2b0f-46aa-956d-48c41c9cc959.next.bspapp.com/miniQrcode.jpg",
 };
